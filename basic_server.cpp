@@ -38,7 +38,6 @@ void broadCastMessage(string msg, SOCKET except) {
     return;
 }
 
-
 // 특정 접속자에게 메세지 보내기
 void sendMsg(SOCKET target, string msg) {
     send(target, msg.c_str(), msg.length(), 0);
@@ -54,23 +53,29 @@ void handle_client(SOCKET client_socket) {
         // 아직 이름이 정해지지 않았다면, 처음 온 것은 유저명이다. 유저명을 입력받는다.
         // 동시에 현재 접속자수와 환영 메세지를 보낸다.
         if (valRead > 0 && client_name == "") {
+            cBuffer[valRead] = '\0';
             client_name = cBuffer;
-            cout << client_name << " 님이 채팅에 입장하셨습니다" << endl;
-            broadCastMessage(client_name + " 님이 채팅에 입장하셨습니다", client_socket);
             
             client_mutex.lock();
-            cout << "현재 접속자 수는 " << to_string(clients.size()) << " 명입니다." << endl;
-            sendMsg(client_socket, "채팅 서버에 오신 것을 환영합니다.\n현재 접속자 수는 " + to_string(clients.size()) + " 명입니다.");
+            int users_count = clients.size();
             client_mutex.unlock();
+            
+            cout << "<공지> " + client_name + " 님이 채팅에 입장하셨습니다" << endl;
+            cout << "       현재 접속자 수는 " + to_string(users_count) + "명입니다" << endl << endl;
+            sendMsg(client_socket, "<공지> 채팅 서버에 오신 것을 환영합니다.\n       채팅을 종료하려면 \"/퇴장\" 혹은 \"/exit\" 이라 입력해주세요\n");
+            broadCastMessage("<공지> " + client_name + " 님이 채팅에 입장하셨습니다\n       현재 접속자 수는 " + to_string(users_count) + "명입니다\n", INVALID_SOCKET);
         }
 
         else if (valRead == 0) {
             client_mutex.lock();
-            broadCastMessage(client_name + " 님이 채팅을 떠나셨습니다", INVALID_SOCKET);
-            cout << "현재 접속자 수는 " << to_string(clients.size()) << " 명입니다." << endl;
-            broadCastMessage("현재 접속자 수는 " + to_string(clients.size()) + " 명입니다.", INVALID_SOCKET);
+            int users_count = clients.size();
             client_mutex.unlock();
-            cout << client_name << " 님이 채팅을 떠나셨습니다." << endl;
+
+            broadCastMessage("<공지> " + client_name + " 님이 채팅을 떠나셨습니다", INVALID_SOCKET);
+            broadCastMessage("       현재 접속자 수는 " + to_string(users_count) + " 명입니다.", INVALID_SOCKET);
+            cout << "<공지> " + client_name + " 님이 채팅을 떠나셨습니다" << endl;
+            cout << "       현재 접속자 수는 " + to_string(users_count) + " 명입니다." << endl;
+            
             break;
         }
 
@@ -81,8 +86,21 @@ void handle_client(SOCKET client_socket) {
         }
 
         else {
-            cout << client_name << " 님의 연결이 유실되었습니다." << endl;
-            broadCastMessage(client_name + " 님의 연결이 유실되었습니다.", INVALID_SOCKET);
+            // 유저가 접속하려다 닉네임을 짓지 않고 종료하면 생기는 메세지 방지
+            if (client_name == "") {}
+
+            // 실제로 유저가 접속을 종료하면 메세지 출력
+            else {
+                client_mutex.lock();
+                int users_count = clients.size();
+                client_mutex.unlock();
+
+                broadCastMessage("<공지> " + client_name + " 님의 연결이 유실되었습니다.", INVALID_SOCKET);
+                broadCastMessage("       현재 접속자 수는 " + to_string(users_count) + " 명입니다.", INVALID_SOCKET);
+
+                cout << "<공지> " + client_name + " 님의 연결이 유실되었습니다." << endl;
+                cout << "       현재 접속자 수는 " + to_string(users_count) + " 명입니다." << endl;
+            }
             break;
         }
     }
