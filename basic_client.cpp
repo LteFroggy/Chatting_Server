@@ -5,7 +5,6 @@
 #include <iostream>
 #include <ws2tcpip.h>
 #include <WinSock2.h>
-// #include <sys/socket.h>
 
 #pragma comment(lib, "ws2_32")
 
@@ -13,34 +12,52 @@ using namespace std;
 
 #define PORT 13542
 #define BUFFER_SIZE 1024
-#define SERVER_IP "210.178.8.62"
+#define SERVER_IP "127.0.0.1"
 
 /*
-    í´ë¼ì´ì–¸íŠ¸ëŠ” ì†Œì¼“ì„ ìƒì„±í•˜ê³ , ì—°ê²°ì„ ìš”ì²­í•œë‹¤.
+    Å¬¶óÀÌ¾ğÆ®´Â ¼ÒÄÏÀ» »ı¼ºÇÏ°í, ¿¬°áÀ» ¿äÃ»ÇÑ´Ù.
 */
 
-// ì„œë²„ì—ì„œ ë°›ì€ ë©”ì„¸ì§€ë“¤ê³¼ ë‚´ê°€ ë³´ë‚¸ ë§¤ì„¸ì§€ë¥¼ ì €ì¥í•˜ëŠ” ë²¡í„°
+// ¼­¹ö¿¡¼­ ¹ŞÀº ¸Ş¼¼Áöµé°ú ³»°¡ º¸³½ ¸Å¼¼Áö¸¦ ÀúÀåÇÏ´Â º¤ÅÍ
 vector<string> sMsg;
 mutex msg_mutex;
 string userName;
 
-
-// ì„œë²„ì— ì ‘ì†ë˜ì—ˆìŒê³¼ ë‹‰ë„¤ì„ ì„¤ì •ì„ ìˆ˜í–‰í•˜ëŠ” í•¨ìˆ˜
-void firstScreen(void) {
+// ¼­¹ö¿¡ Á¢¼ÓµÇ¾úÀ½À» ¾Ë¸®°í ¼­¹ö ¼±ÅÃ ¹× ´Ğ³×ÀÓ ¼³Á¤À» ¼öÇàÇÏ´Â ÇÔ¼ö
+int firstScreen(SOCKET client_socket) {
     system("cls");
-    cout << "\n"
-    "## ì±„íŒ… ì„œë²„ì— ì—°ê²°ë˜ì—ˆìŠµë‹ˆë‹¤! ##\n"
-    "## ì„œë²„ì—ì„œ ì‚¬ìš©í•  ë‹‰ë„¤ì„ì„ ì…ë ¥í•´ì£¼ì„¸ìš” : ";
+    char cBuffer[BUFFER_SIZE];
+    string server_select;
+
+    cout << "\n## Ã¤ÆÃ ¼­¹ö¿¡ ¿¬°áµÇ¾ú½À´Ï´Ù! ##\n";
+    int valRead = recv(client_socket, cBuffer, BUFFER_SIZE, 0);
+    cBuffer[valRead] = '\0';
+    cout << cBuffer << endl;
+    getline(cin, server_select);
+
+    while (server_select != "1" && server_select != "2") {
+        cout << "Àß¸øµÈ °ªÀ» ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä : " << endl;
+        getline(cin, server_select);
+    }
+
+    // Àß ¼³Á¤Çß´Ù¸é, Àü¼ÛÇÑ´Ù
+    send(client_socket, server_select.c_str(), server_select.size(), 0);
+
+    cout << "## ¼­¹ö¿¡¼­ »ç¿ëÇÒ ´Ğ³×ÀÓÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä(2ÀÚ ÀÌ»ó, 8ÀÚ ÀÌÇÏ) : ";
+
     getline(cin, userName);
-    while (userName.length() > 12 || userName.length() < 2) {
-        cout << "## ì´ë¦„ì´ ë„ˆë¬´ ì§§ê±°ë‚˜ ê¹ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš” : ";
+    while (userName.length() >= 8 || userName.length() <= 2) {
+        cout << "## ÀÌ¸§ÀÌ ³Ê¹« Âª°Å³ª ±é´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä : ";
         getline(cin, userName);
     }
 
     userName[userName.length()] = '\0';
+
+    // À¯Àú ÀÌ¸§À» Àü¼ÛÇÑ´Ù.
+    return send(client_socket, userName.c_str(), userName.size(), 0);
 }
 
-// ì±„íŒ… í™”ë©´ì„ êµ¬ì„±í•´ì£¼ëŠ” í•¨ìˆ˜. í™”ë©´ì„ clsí•œ í›„ ë°›ì€ ì±„íŒ…ì„ ëª¨ë‘ ë³´ì—¬ì£¼ê³  ë‚´ ì…ë ¥ì°½ì„ ë°‘ì— ë‘”ë‹¤.
+// Ã¤ÆÃ È­¸éÀ» ±¸¼ºÇØÁÖ´Â ÇÔ¼ö. È­¸éÀ» clsÇÑ ÈÄ ¹ŞÀº Ã¤ÆÃÀ» ¸ğµÎ º¸¿©ÁÖ°í ³» ÀÔ·ÂÃ¢À» ¹Ø¿¡ µĞ´Ù.
 void chattingScreen(void) {
     system("cls");
 
@@ -50,10 +67,10 @@ void chattingScreen(void) {
         cout << v << endl;
     }
     msg_mutex.unlock();
-    cout << "ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡" << endl;
+    cout << "¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ" << endl;
     cout << endl << userName << " : ";
 
-    // ë²„í¼ì— ê°’ì´ ë‚¨ì•„ìˆë‹¤ë©´(ì…ë ¥í•˜ë˜ ë©”ì„¸ì§€ê°€ ìˆì—ˆë‹¤ë©´) ê°’ ê·¸ëŒ€ë¡œ ì£¼ê¸°
+    // ¹öÆÛ¿¡ °ªÀÌ ³²¾ÆÀÖ´Ù¸é(ÀÔ·ÂÇÏ´ø ¸Ş¼¼Áö°¡ ÀÖ¾ú´Ù¸é) °ª ±×´ë·Î ÁÖ±â
     // string remain_input;
     // getline(cin, remain_input);
     // cout << remain_input;
@@ -68,26 +85,35 @@ void endedScreen(int code) {
         cout << v << endl;
     }
     msg_mutex.unlock();
-    cout << "ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡ã…¡" << endl;
-    cout << "ì„œë²„ì™€ì˜ ì—°ê²°ì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤ (" << code << ")" << endl;
-    cout << "ì¢…ë£Œí•˜ë ¤ë©´ ì—”í„°ë¥¼ ëˆŒëŸ¬ì£¼ì„¸ìš”" << endl;
+    if (code == 0) {
+        cout << "¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ" << endl; 
+        cout << "¼­¹ö¿ÍÀÇ ¿¬°áÀÌ Á¾·áµÇ¾ú½À´Ï´Ù (" << code << ")" << endl;
+        cout << "Á¾·áÇÏ·Á¸é ¿£ÅÍ¸¦ ´­·¯ÁÖ¼¼¿ä" << endl;
+    }
+
+    else if (code == 1) {
+        cout << "¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ" << endl; 
+        cout << "¼­¹ö¿ÍÀÇ ¿¬°áÀÌ ²÷¾îÁ³½À´Ï´Ù. (" << code << ")" << endl;
+        cout << "¿£ÅÍ¸¦ ´­·¯ Á¾·áÇØÁÖ¼¼¿ä" << endl;
+    }
 }
 
-// ë©”ì„¸ì§€ë¥¼ ì „ì†¡í•˜ê¸° ìœ„í•œ í•¨ìˆ˜
+// ¸Ş¼¼Áö¸¦ Àü¼ÛÇÏ±â À§ÇÑ ÇÔ¼ö
 void send_to_server(SOCKET client_socket) {
     string message;
+
     while (true) {
         message = "";
         // cout << userName << " : ";
         getline(cin, message);
 
-        if (message == "/í‡´ì¥") {
+        if (message == "/ÅğÀå" || message == "/exit") {
             endedScreen(0);
             break;
         }
 
         else if (send(client_socket, message.c_str(), message.length(), 0) == SOCKET_ERROR) {
-            // cout << "ë©”ì„¸ì§€ ì „ì†¡ ì‹¤íŒ¨" << endl;
+            // cout << "¸Ş¼¼Áö Àü¼Û ½ÇÆĞ" << endl;
             endedScreen(1);
             break;
         }
@@ -99,7 +125,7 @@ void send_to_server(SOCKET client_socket) {
         chattingScreen();
     }
 
-    // ì—¬ê¸°ì„œ socketì„ ë‹«ìœ¼ë©´, ìì—°ìŠ¤ëŸ½ê²Œ recví•¨ìˆ˜ë„ ì†Œì¼“ì´ ì‚¬ë¼ì ¸ ê°™ì´ ëë‚œë‹¤.
+    // ¿©±â¼­ socketÀ» ´İÀ¸¸é, ÀÚ¿¬½º·´°Ô recvÇÔ¼öµµ ¼ÒÄÏÀÌ »ç¶óÁ® °°ÀÌ ³¡³­´Ù.
     closesocket(client_socket);
 }
 
@@ -126,7 +152,7 @@ void recv_from_server(SOCKET client_socket) {
         }
 
         else {
-            // cout << "ì„œë²„ì™€ì˜ í†µì‹  ì¢…ë£Œë¨" << endl;
+            // cout << "¼­¹ö¿ÍÀÇ Åë½Å Á¾·áµÊ" << endl;
             endedScreen(4);
             break;
         }
@@ -140,7 +166,7 @@ int main() {
     SOCKET clientSocket;
     clientSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (clientSocket == INVALID_SOCKET) {
-        cout << "í´ë¼ì´ì–¸íŠ¸ ì†Œì¼“ ìƒì„± ì‹¤íŒ¨" << endl;
+        cout << "Å¬¶óÀÌ¾ğÆ® ¼ÒÄÏ »ı¼º ½ÇÆĞ" << endl;
         return -1;
     }
 
@@ -156,24 +182,23 @@ int main() {
         return 1;
     }
     
-    // ì²˜ìŒ ì ‘ì†í•˜ì—¬ ìœ ì €ëª…ì„ ì •í•˜ëŠ” ë¶€ë¶„
-    firstScreen();
-    int sendResult = send(clientSocket, userName.c_str(), userName.length(), 0);
+    // Ã³À½ Á¢¼ÓÇÏ¿© Ã¤³Î ¹× À¯Àú¸íÀ» ¼³Á¤ÇÑ´Ù.
+    int sendResult = firstScreen(clientSocket);
     if (sendResult == SOCKET_ERROR) {
-        cout << "ì—°ê²°ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤" << endl;
+        cout << "¿¬°á¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù" << endl;
         closesocket(clientSocket);
         WSACleanup();
         return 1;
     }
 
-    // ë‹‰ë„¤ì„ ì„¤ì •ì„ ì™„ë£Œí–ˆìœ¼ë©´, ì„œë²„ì˜ í™˜ì˜ ë©”ì„¸ì§€ë¥¼ ë°›ëŠ”ë‹¤.
+    // ´Ğ³×ÀÓ ¼³Á¤À» ¿Ï·áÇßÀ¸¸é, ¼­¹öÀÇ È¯¿µ ¸Ş¼¼Áö¸¦ ¹Ş´Â´Ù.
     // char cBuffer[BUFFER_SIZE];
     // recv(clientSocket, cBuffer, BUFFER_SIZE, 0);
     // sMsg.push_back(cBuffer);
     // cout << cBuffer << endl;
 
-    // ì„œë²„ë¡œ í•­ìƒ ë©”ì„¸ì§€ë¥¼ ë³´ë‚¼ ìˆ˜ë„ ìˆê³ , ë°›ì„ ìˆ˜ë„ ìˆì–´ì•¼ í•œë‹¤.
-    // ë”°ë¼ì„œ 2ê°œì˜ ìŠ¤ë ˆë“œë¥¼ ì‚¬ìš©í•œë‹¤.
+    // ¼­¹ö·Î Ç×»ó ¸Ş¼¼Áö¸¦ º¸³¾ ¼öµµ ÀÖ°í, ¹ŞÀ» ¼öµµ ÀÖ¾î¾ß ÇÑ´Ù.
+    // µû¶ó¼­ 2°³ÀÇ ½º·¹µå¸¦ »ç¿ëÇÑ´Ù.
     thread send_thread(send_to_server, clientSocket);
     thread receive_thread(recv_from_server, clientSocket);
 

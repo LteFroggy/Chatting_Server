@@ -7,7 +7,10 @@
         "system_error": "cpp",
         "xstring": "cpp",
         "mutex": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "deque": "cpp",
+        "initializer_list": "cpp",
+        "xutility": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
