@@ -14,19 +14,26 @@ using namespace std;
 #define PORT 13542
 #define BUFFER_SIZE 1024
 
-// Á¢¼ÓÇÑ ¸ğµç Client¸¦ ÀúÀåÇÏ±â À§ÇÑ º¤ÅÍ
-vector<vector<SOCKET>> server_clients(2);
+// ì ‘ì†í•œ ëª¨ë“  Clientë¥¼ ì €ì¥í•˜ê¸° ìœ„í•œ ë²¡í„°
+unordered_map<SOCKET, string> ;
+// Client vectorë¥¼ ì»¨íŠ¸ë¡¤í•  ë•Œ ì‚¬ìš©í•˜ê¸° ìœ„í•œ mutex
+vector<mutex> client_mutex;
 
-// Client vector¸¦ ÄÁÆ®·ÑÇÒ ¶§ »ç¿ëÇÏ±â À§ÇÑ mutex
-vector<mutex> client_mutex(2);
+// ë©”ì„¸ì§€ í˜•ì‹ì„ ë§Œë“¤ì–´ ì‚¬ìš©í•œë‹¤.
+struct message {
+    int messageType
+};
+
+struct userState {
+    
+}
 
 /*
-    ¼­¹ö´Â ±âº»ÀûÀ¸·Î socketÀ» ¿­°í Å¬¶óÀÌ¾ğÆ®ÀÇ Á¢¼ÓÀ» ±â´Ù¸°´Ù.
+    ì„œë²„ëŠ” ê¸°ë³¸ì ìœ¼ë¡œ socketì„ ì—´ê³  í´ë¼ì´ì–¸íŠ¸ì˜ ì ‘ì†ì„ ê¸°ë‹¤ë¦°ë‹¤.
 
-    ±×·±µ¥, Accept´Â ÇÏ³ªÀÇ Client¸¸ ¹ŞÀ» ¼ö ÀÖÀ¸¹Ç·Î »õ·Î¿î ½º·¹µå¸¦ »ı¼ºÇØ¼­ Å¬¶óÀÌ¾ğÆ® ¿äÃ»À» Ã³¸®ÇÑ´Ù.
-*/
+    ê·¸ëŸ°ë°, AcceptëŠ” í•˜ë‚˜ì˜ Clientë§Œ ë°›ì„ ìˆ˜ ìˆìœ¼ë¯€ë¡œ ìƒˆë¡œìš´ ìŠ¤ë ˆë“œë¥¼ ìƒì„±í•´ì„œ í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ì„ ì²˜ë¦¬í•œë‹¤.
 
-// ¸ğµç Á¢¼ÓÀÚ¿¡°Ô ¸Ş¼¼Áö º¸³»±â
+// ëª¨ë“  ì ‘ì†ìì—ê²Œ ë©”ì„¸ì§€ ë³´ë‚´ê¸°
 void broadCastMessage(string msg, int server, SOCKET except) {
     client_mutex[server].lock();
     for (auto v : server_clients[server]) {
@@ -40,38 +47,38 @@ void broadCastMessage(string msg, int server, SOCKET except) {
     return;
 }
 
-// Æ¯Á¤ Á¢¼ÓÀÚ¿¡°Ô ¸Ş¼¼Áö º¸³»±â
+// íŠ¹ì • ì ‘ì†ìì—ê²Œ ë©”ì„¸ì§€ ë³´ë‚´ê¸°
 void sendMsg(SOCKET target, string msg) {
     send(target, msg.c_str(), msg.length(), 0);
 }
 
-// »õ·Î¿î Å¬¶óÀÌ¾ğÆ®¸¦ Ã³¸®ÇÏ±â À§ÇÑ ÇÔ¼ö
+// ìƒˆë¡œìš´ í´ë¼ì´ì–¸íŠ¸ë¥¼ ì²˜ë¦¬í•˜ê¸° ìœ„í•œ í•¨ìˆ˜
 void handle_client(SOCKET client_socket) {
     char cBuffer[BUFFER_SIZE];
     string client_name = "";
     int server(0);
 
-    // ¸ÕÀú ¾î¶² Ã¤³Î¿¡ ÀÔÀåÇÒÁö Á¤ÇÏ°Ô ÇÏµµ·Ï ÇÏ±â À§ÇØ ¼­¹öº° ÀÎ¿ø¼ö¸¦ Á¦°øÇÑ´Ù
-    sendMsg(client_socket, "¼­¹ö 1 ÀÎ¿ø¼ö : " + to_string(server_clients[0].size()) + "\n¼­¹ö 2 ÀÎ¿ø¼ö : " + to_string(server_clients[1].size()) + "\nÁ¢¼ÓÇÒ ¼­¹ö¸¦ ¼±ÅÃÇÏ¼¼¿ä (1 or 2)");
+    // ë¨¼ì € ì–´ë–¤ ì±„ë„ì— ì…ì¥í• ì§€ ì •í•˜ê²Œ í•˜ë„ë¡ í•˜ê¸° ìœ„í•´ ì„œë²„ë³„ ì¸ì›ìˆ˜ë¥¼ ì œê³µí•œë‹¤
+    sendMsg(client_socket, "ì„œë²„ 1 ì¸ì›ìˆ˜ : " + to_string(server_clients[0].size()) + "\nì„œë²„ 2 ì¸ì›ìˆ˜ : " + to_string(server_clients[1].size()) + "\nì ‘ì†í•  ì„œë²„ë¥¼ ì„ íƒí•˜ì„¸ìš” (1 or 2)");
         
     int valRead = recv(client_socket, cBuffer, BUFFER_SIZE, 0);
-    // cout << "ÀÔ·Â ¼­¹ö°ª ¼ö½Å ¿Ï·á" << endl;
+    // cout << "ì…ë ¥ ì„œë²„ê°’ ìˆ˜ì‹  ì™„ë£Œ" << endl;
     cBuffer[valRead] = '\0';
 
     if (cBuffer == "1") server = 0;
     if (cBuffer == "2") server = 1;
 
-    // ±× °á°ú¿¡ µû¶ó ¼­¹ö¿¡ ÀÔÀå½ÃÅ²´Ù.
+    // ê·¸ ê²°ê³¼ì— ë”°ë¼ ì„œë²„ì— ì…ì¥ì‹œí‚¨ë‹¤.
     client_mutex[server].lock();
     server_clients[server].push_back(client_socket);
     client_mutex[server].unlock();
 
-    // cout << "¼­¹ö¿¡ ÀÔÀå½ÃÄ×À½" << endl;
+    // cout << "ì„œë²„ì— ì…ì¥ì‹œì¼°ìŒ" << endl;
 
     while (true) {
         valRead = recv(client_socket, cBuffer, BUFFER_SIZE, 0);
 
-        // ¾ÆÁ÷ ´Ğ³×ÀÓÀÌ ¾ø´Â »óÅÂ¶ó¸é, ´Ğ³×ÀÓÀ» ¼³Á¤ÇÑ °ÍÀÌ´Ï Àû¿ëÇÏ°í È¯¿µ ¸Ş¼¼Áö Ãâ·Â
+        // ì•„ì§ ë‹‰ë„¤ì„ì´ ì—†ëŠ” ìƒíƒœë¼ë©´, ë‹‰ë„¤ì„ì„ ì„¤ì •í•œ ê²ƒì´ë‹ˆ ì ìš©í•˜ê³  í™˜ì˜ ë©”ì„¸ì§€ ì¶œë ¥
         if (valRead > 0 && client_name == "") {
             cBuffer[valRead] = '\0';
             client_name = cBuffer;
@@ -80,56 +87,56 @@ void handle_client(SOCKET client_socket) {
             int users_count = server_clients[server].size();
             client_mutex[server].unlock();
             
-            cout << "\n<°øÁö> " + client_name + " ´ÔÀÌ " << server + 1 << "¼­¹ö¿¡ ÀÔÀåÇÏ¼Ì½À´Ï´Ù" << endl;
-            cout << "       ÇöÀç " << server + 1 << "¼­¹ö Á¢¼ÓÀÚ ¼ö´Â " + to_string(users_count) + "¸íÀÔ´Ï´Ù" << endl << endl;
-            sendMsg(client_socket, "<°øÁö> Ã¤ÆÃ ¼­¹ö¿¡ ¿À½Å °ÍÀ» È¯¿µÇÕ´Ï´Ù.\n       Ã¤ÆÃÀ» Á¾·áÇÏ·Á¸é \"/ÅğÀå\" È¤Àº \"/exit\" ÀÌ¶ó ÀÔ·ÂÇØÁÖ¼¼¿ä\n");
-            broadCastMessage("\n<°øÁö> " + client_name + " ´ÔÀÌ Ã¤ÆÃ¿¡ ÀÔÀåÇÏ¼Ì½À´Ï´Ù\n       ÇöÀç Á¢¼ÓÀÚ ¼ö´Â " + to_string(users_count) + "¸íÀÔ´Ï´Ù\n", server, INVALID_SOCKET);
+            cout << "\n<ê³µì§€> " + client_name + " ë‹˜ì´ " << server + 1 << "ì„œë²„ì— ì…ì¥í•˜ì…¨ìŠµë‹ˆë‹¤" << endl;
+            cout << "       í˜„ì¬ " << server + 1 << "ì„œë²„ ì ‘ì†ì ìˆ˜ëŠ” " + to_string(users_count) + "ëª…ì…ë‹ˆë‹¤" << endl << endl;
+            sendMsg(client_socket, "<ê³µì§€> ì±„íŒ… ì„œë²„ì— ì˜¤ì‹  ê²ƒì„ í™˜ì˜í•©ë‹ˆë‹¤.\n       ì±„íŒ…ì„ ì¢…ë£Œí•˜ë ¤ë©´ \"/í‡´ì¥\" í˜¹ì€ \"/exit\" ì´ë¼ ì…ë ¥í•´ì£¼ì„¸ìš”\n");
+            broadCastMessage("\n<ê³µì§€> " + client_name + " ë‹˜ì´ ì±„íŒ…ì— ì…ì¥í•˜ì…¨ìŠµë‹ˆë‹¤\n       í˜„ì¬ ì ‘ì†ì ìˆ˜ëŠ” " + to_string(users_count) + "ëª…ì…ë‹ˆë‹¤\n", server, INVALID_SOCKET);
         }
 
-        // recvÀÇ °á°ú°¡ 0ÀÌ¶ó¸é, Á¤»óÀûÀ¸·Î Å¬¶óÀÌ¾ğÆ® ´Ü¿¡¼­ Á¾·á µÈ °ÍÀÌ´Ù.
+        // recvì˜ ê²°ê³¼ê°€ 0ì´ë¼ë©´, ì •ìƒì ìœ¼ë¡œ í´ë¼ì´ì–¸íŠ¸ ë‹¨ì—ì„œ ì¢…ë£Œ ëœ ê²ƒì´ë‹¤.
         else if (valRead == 0) {
             client_mutex[server].lock();
             int users_count = server_clients[server].size();
             client_mutex[server].unlock();
 
-            broadCastMessage("\n<°øÁö> " + client_name + " ´ÔÀÌ Ã¤ÆÃÀ» ¶°³ª¼Ì½À´Ï´Ù", server, INVALID_SOCKET);
-            broadCastMessage("       ÇöÀç Á¢¼ÓÀÚ ¼ö´Â " + to_string(users_count - 1) + " ¸íÀÔ´Ï´Ù.", server, INVALID_SOCKET);
-            cout << "\n<°øÁö> " + client_name + " ´ÔÀÌ Ã¤ÆÃÀ» ¶°³ª¼Ì½À´Ï´Ù" << endl;
-            cout << "       ÇöÀç " << server + 1 << "¼­¹ö Á¢¼ÓÀÚ ¼ö´Â " + to_string(users_count- 1) + " ¸íÀÔ´Ï´Ù." << endl;
+            broadCastMessage("\n<ê³µì§€> " + client_name + " ë‹˜ì´ ì±„íŒ…ì„ ë– ë‚˜ì…¨ìŠµë‹ˆë‹¤", server, INVALID_SOCKET);
+            broadCastMessage("       í˜„ì¬ ì ‘ì†ì ìˆ˜ëŠ” " + to_string(users_count - 1) + " ëª…ì…ë‹ˆë‹¤.", server, INVALID_SOCKET);
+            cout << "\n<ê³µì§€> " + client_name + " ë‹˜ì´ ì±„íŒ…ì„ ë– ë‚˜ì…¨ìŠµë‹ˆë‹¤" << endl;
+            cout << "       í˜„ì¬ " << server + 1 << "ì„œë²„ ì ‘ì†ì ìˆ˜ëŠ” " + to_string(users_count- 1) + " ëª…ì…ë‹ˆë‹¤." << endl;
             
             break;
         }
 
-        // recvÀÇ °á°ú°¡ 0ÀÌ»óÀÌ¶ó¸é, ¸Ş¼¼Áö¸¦ ¼ö½ÅÇÑ °ÍÀÌ´Ï ¸ğµç Å¬¶óÀÌ¾ğÆ®¿¡°Ô Àü¼ÛÇÑ´Ù.
+        // recvì˜ ê²°ê³¼ê°€ 0ì´ìƒì´ë¼ë©´, ë©”ì„¸ì§€ë¥¼ ìˆ˜ì‹ í•œ ê²ƒì´ë‹ˆ ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ì „ì†¡í•œë‹¤.
         else if (valRead > 0) {
             cBuffer[valRead] = '\0';
             cout << client_name << " : " << cBuffer << endl;
             broadCastMessage(client_name + " : " + string(cBuffer), server, client_socket);
         }
 
-        // recv°¡ À½¼ö¶ó¸é, ¿¡·¯°¡ »ı±ä °ÍÀÌ´Ï ¿¬°áÀÌ ²÷¾îÁ³À½À» Ç¥½ÃÇÑ´Ù.
+        // recvê°€ ìŒìˆ˜ë¼ë©´, ì—ëŸ¬ê°€ ìƒê¸´ ê²ƒì´ë‹ˆ ì—°ê²°ì´ ëŠì–´ì¡ŒìŒì„ í‘œì‹œí•œë‹¤.
         else {
-            // À¯Àú°¡ Á¢¼ÓÇÏ·Á´Ù ´Ğ³×ÀÓÀ» ÁşÁö ¾Ê°í Á¾·áÇÏ¸é »ı±â´Â ¸Ş¼¼Áö ¹æÁö
+            // ìœ ì €ê°€ ì ‘ì†í•˜ë ¤ë‹¤ ë‹‰ë„¤ì„ì„ ì§“ì§€ ì•Šê³  ì¢…ë£Œí•˜ë©´ ìƒê¸°ëŠ” ë©”ì„¸ì§€ ë°©ì§€
             if (client_name == "") {}
 
-            // ½ÇÁ¦·Î À¯Àú°¡ Á¢¼ÓÀ» Á¾·áÇÏ¸é ¸Ş¼¼Áö Ãâ·Â
+            // ì‹¤ì œë¡œ ìœ ì €ê°€ ì ‘ì†ì„ ì¢…ë£Œí•˜ë©´ ë©”ì„¸ì§€ ì¶œë ¥
             else {
                 client_mutex[server].lock();
                 int users_count = server_clients[server].size();
                 client_mutex[server].unlock();  
 
-                // Á¢¼ÓÀÌ ²÷¾îÁø Ã¤ÆÃ Ãâ·Â
-                broadCastMessage("\n<°øÁö> " + client_name + " ´ÔÀÇ ¿¬°áÀÌ À¯½ÇµÇ¾ú½À´Ï´Ù.", server, INVALID_SOCKET);
-                broadCastMessage("       ÇöÀç Á¢¼ÓÀÚ ¼ö´Â " + to_string(users_count - 1) + " ¸íÀÔ´Ï´Ù.", server, INVALID_SOCKET);
+                // ì ‘ì†ì´ ëŠì–´ì§„ ì±„íŒ… ì¶œë ¥
+                broadCastMessage("\n<ê³µì§€> " + client_name + " ë‹˜ì˜ ì—°ê²°ì´ ìœ ì‹¤ë˜ì—ˆìŠµë‹ˆë‹¤.", server, INVALID_SOCKET);
+                broadCastMessage("       í˜„ì¬ ì ‘ì†ì ìˆ˜ëŠ” " + to_string(users_count - 1) + " ëª…ì…ë‹ˆë‹¤.", server, INVALID_SOCKET);
 
-                cout << "\n<°øÁö> " + client_name + " ´ÔÀÇ ¿¬°áÀÌ À¯½ÇµÇ¾ú½À´Ï´Ù." << endl;
-                cout << "       ÇöÀç Á¢¼ÓÀÚ ¼ö´Â " + to_string(users_count - 1) + " ¸íÀÔ´Ï´Ù." << endl;
+                cout << "\n<ê³µì§€> " + client_name + " ë‹˜ì˜ ì—°ê²°ì´ ìœ ì‹¤ë˜ì—ˆìŠµë‹ˆë‹¤." << endl;
+                cout << "       í˜„ì¬ ì ‘ì†ì ìˆ˜ëŠ” " + to_string(users_count - 1) + " ëª…ì…ë‹ˆë‹¤." << endl;
             }
             break;
         }
     }
 
-    // ¿¬°áÀÌ Á¾·áµÈ´Ù¸é, º¤ÅÍ¿¡¼­ »èÁ¦ÇÑ´Ù.
+    // ì—°ê²°ì´ ì¢…ë£Œëœë‹¤ë©´, ë²¡í„°ì—ì„œ ì‚­ì œí•œë‹¤.
     client_mutex[server].lock();
     server_clients[server].erase(remove(server_clients[server].begin(), server_clients[server].end(), client_socket), server_clients[server].end());
     client_mutex[server].unlock();
@@ -140,14 +147,14 @@ void handle_client(SOCKET client_socket) {
 int main() {
     WSADATA wsaData;
     /*
-        WinSock ÃÊ±âÈ­¸¦ À§ÇÑ ÄÚµå
+        WinSock ì´ˆê¸°í™”ë¥¼ ìœ„í•œ ì½”ë“œ
 
-        WSADATA´Â WindowsÀÇ ¼ÒÄÏ ÃÊ±âÈ­ Á¤º¸ ÀúÀåÀ» À§ÇÑ ±¸Á¶Ã¼ÀÌ´Ù.
-        WSAStartup(¼ÒÄÏ ¹öÀü, WSADATRA ±¸Á¶Ã¼ ÁÖ¼Ò)
-            Á¦ÀÏ ¸ÕÀú È£ÃâÇØ¾ß ÇÏ´Â ÇÔ¼ö·Î, ¾î¶² ¼ÒÄÏÀ» Windows¿¡ ¾Ë·ÁÁÖ´Â °Í.
-            ¼ÒÄÏ ¹öÀü¿¡´Â 2.2¸¦ »ç¿ëÇÒ °ÍÀÌ°í, WORD typeÀ¸·Î µé¾î°£´Ù.
-            WORD´Â unsigned intÅ¸ÀÔÀÎµ¥, 2.2´Â double°ªÀÌ¹Ç·Î MAKEWORD¸¦ ÀÌ¿ëÇØ 2.2¸¦ »ç¿ëÇØ ¸¸µç´Ù.
-            2¹øÂ°¿¡´Â WSADATAÀÇ Æ÷ÀÎÅÍ¸¦ ¸¸µé¾î ³Ö´Â´Ù.
+        WSADATAëŠ” Windowsì˜ ì†Œì¼“ ì´ˆê¸°í™” ì •ë³´ ì €ì¥ì„ ìœ„í•œ êµ¬ì¡°ì²´ì´ë‹¤.
+        WSAStartup(ì†Œì¼“ ë²„ì „, WSADATRA êµ¬ì¡°ì²´ ì£¼ì†Œ)
+            ì œì¼ ë¨¼ì € í˜¸ì¶œí•´ì•¼ í•˜ëŠ” í•¨ìˆ˜ë¡œ, ì–´ë–¤ ì†Œì¼“ì„ Windowsì— ì•Œë ¤ì£¼ëŠ” ê²ƒ.
+            ì†Œì¼“ ë²„ì „ì—ëŠ” 2.2ë¥¼ ì‚¬ìš©í•  ê²ƒì´ê³ , WORD typeìœ¼ë¡œ ë“¤ì–´ê°„ë‹¤.
+            WORDëŠ” unsigned intíƒ€ì…ì¸ë°, 2.2ëŠ” doubleê°’ì´ë¯€ë¡œ MAKEWORDë¥¼ ì´ìš©í•´ 2.2ë¥¼ ì‚¬ìš©í•´ ë§Œë“ ë‹¤.
+            2ë²ˆì§¸ì—ëŠ” WSADATAì˜ í¬ì¸í„°ë¥¼ ë§Œë“¤ì–´ ë„£ëŠ”ë‹¤.
     */
     int iResult;
     iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -157,26 +164,25 @@ int main() {
     }
 
     /*
-        ¼ÒÄÏ »õ·Î »ı¼ºÇÏ±â
+        ì†Œì¼“ ìƒˆë¡œ ìƒì„±í•˜ê¸°
 
         socket(int domain, int type, int protocol)
 
         domain
-            AF_INET : IPv4 »ç¿ë
-            AF_INET6 : IPv6 »ç¿ë
-
+            AF_INET : IPv4 ì‚¬ìš©
+            AF_INET6 : IPv6 ì‚¬ìš©
         type
-            SOCK_STREAM : ¿¬°áÁöÇâÇü, ½Å·Ú¼ºÀÖ´Â Åë½Å Áö¿ø, ¼ø¼­´ë·Î µµÂøÇÏ¸ç °æ°è°¡ ¾ø´Ù. (TCP)
-            SOCK_DGRAM : ºñ¿¬°áÁöÇâÇü, ½Å·Ú¼ºº¸´Ü ¼Óµµ¸¦ Áß¿ä½ÃÇÏ¸ç, ÆĞÅ¶ ´ÜÀ§·Î µ¥ÀÌÅÍ¸¦ Àü¼ÛÇÑ´Ù. (UDP)
+            SOCK_STREAM : ì—°ê²°ì§€í–¥í˜•, ì‹ ë¢°ì„±ìˆëŠ” í†µì‹  ì§€ì›, ìˆœì„œëŒ€ë¡œ ë„ì°©í•˜ë©° ê²½ê³„ê°€ ì—†ë‹¤. (TCP)
+            SOCK_DGRAM : ë¹„ì—°ê²°ì§€í–¥í˜•, ì‹ ë¢°ì„±ë³´ë‹¨ ì†ë„ë¥¼ ì¤‘ìš”ì‹œí•˜ë©°, íŒ¨í‚· ë‹¨ìœ„ë¡œ ë°ì´í„°ë¥¼ ì „ì†¡í•œë‹¤. (UDP)
 
-        protocol -> ±âº»ÀûÀ¸·Î Domain, Type¿¡ ÀÇÇØ ÀÚµ¿À¸·Î °áÁ¤µÇ³ª, ¸í½ÃÇÏ°í ½ÍÀ» ¶§ »ç¿ë
-            IPROTO_TCP : TCP¸¦ »ç¿ëÇÏ°Ú´Ù°í ¼±ÅÃ
-            IRPOTO_UDP : UDP¸¦ »ç¿ëÇÏ°Ú´Ù´Â ÀÇ¹Ì
+        protocol -> ê¸°ë³¸ì ìœ¼ë¡œ Domain, Typeì— ì˜í•´ ìë™ìœ¼ë¡œ ê²°ì •ë˜ë‚˜, ëª…ì‹œí•˜ê³  ì‹¶ì„ ë•Œ ì‚¬ìš©
+            IPROTO_TCP : TCPë¥¼ ì‚¬ìš©í•˜ê² ë‹¤ê³  ì„ íƒ
+            IRPOTO_UDP : UDPë¥¼ ì‚¬ìš©í•˜ê² ë‹¤ëŠ” ì˜ë¯¸
     */
     SOCKET server_socket;
     server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (server_socket == INVALID_SOCKET) {
-        cerr << "¼ÒÄÏ »ı¼º ½ÇÆĞ : " << WSAGetLastError() << endl;
+        cerr << "ì†Œì¼“ ìƒì„± ì‹¤íŒ¨ : " << WSAGetLastError() << endl;
         closesocket(server_socket);
         WSACleanup();
         system("pause");
@@ -184,20 +190,20 @@ int main() {
     }
 
     /*
-        ¼ÒÄÏÀÇ ±¸¼º¿ä¼Ò¸¦ ´ãÀ» ±¸Á¶Ã¼ »ı¼º ¹× °ª ÇÒ´ç
+        ì†Œì¼“ì˜ êµ¬ì„±ìš”ì†Œë¥¼ ë‹´ì„ êµ¬ì¡°ì²´ ìƒì„± ë° ê°’ í• ë‹¹
 
-        À§¿¡ ¾ğ±ŞÇÑ  ¼ÒÄÏÀÇ ±¸¼º¿ä¼Ò¸¦ ÁöÁ¤ÇÏ¿© ÁÖ¼ÒÁ¤º¸¸¦ ¸¸µç´Ù.
-        ÁÖ¼Ò´Â IP¿Í PORTÀÇ µÎ °¡Áö ¿ä¼Ò°¡ ÀÖ´Ù.
+        ìœ„ì— ì–¸ê¸‰í•œ  ì†Œì¼“ì˜ êµ¬ì„±ìš”ì†Œë¥¼ ì§€ì •í•˜ì—¬ ì£¼ì†Œì •ë³´ë¥¼ ë§Œë“ ë‹¤.
+        ì£¼ì†ŒëŠ” IPì™€ PORTì˜ ë‘ ê°€ì§€ ìš”ì†Œê°€ ìˆë‹¤.
 
-        SOCKADDR_INÀº Windows¼ÒÄÏ¿¡¼­ ¼ÒÄÏÀ» ¿¬°áÇÒ ·ÎÄÃ ¹× ¿ø°İ ÁÖ¼Ò¸¦ ÁöÁ¤ÇÏ´Â µ¥¿¡ »ç¿ëµÈ´Ù.
-        Áï, ÁÖ¼Ò Á¤º¸¸¦ ´ã¾ÆµÎ±â À§ÇÑ ±¸Á¶Ã¼ÀÌ´Ù.
+        SOCKADDR_INì€ Windowsì†Œì¼“ì—ì„œ ì†Œì¼“ì„ ì—°ê²°í•  ë¡œì»¬ ë° ì›ê²© ì£¼ì†Œë¥¼ ì§€ì •í•˜ëŠ” ë°ì— ì‚¬ìš©ëœë‹¤.
+        ì¦‰, ì£¼ì†Œ ì •ë³´ë¥¼ ë‹´ì•„ë‘ê¸° ìœ„í•œ êµ¬ì¡°ì²´ì´ë‹¤.
 
-        sin_family : ¹İµå½Ã AF_INETÀÌ¾î¾ß ÇÑ´Ù.
-        sin_port : Æ÷Æ® ¹øÈ£¸¦ ¼³Á¤ÇÑ´Ù. 2byte³»¿¡¼­ Ç¥ÇöÀÌ °¡´ÉÇØ¾ß ÇÏ¸ç, ±âº» Æ÷Æ®¹øÈ£¸¦ Á¦¿ÜÇÑ ´Ù¸¥ ¹øÈ£¸¦ ½á¾ß ÇÑ´Ù.
-            htons, htonl : Host to NetworkÀÇ ¾àÀÚ·Î, ÀÌ ÇÔ¼ö¸¦ »ç¿ëÇÏ¸é ºò¿£µğ¾È(µ¥ÀÌÅÍ¸¦ ¸Ş¸ğ¸®¿¡ ¾Õ¿¡¼­ºÎÅÍ ÀúÀå) ¹æ½ÄÀ¸·Î µ¥ÀÌÅÍ¸¦ º¯È¯ÇØ »ç¿ëÇÑ´Ù.
-        sin_addr : IPÁÖ¼Ò ¼³Á¤ÇÏ±â
-            s_addr : IPv4¸¦ ÀÇ¹ÌÇÑ´Ù.
-            INADDR_ANY´Â ÇöÀç µ¿ÀÛÁßÀÎ ÄÄÇ»ÅÍÀÇ IP ÁÖ¼Ò¸¦ ÀÇ¹ÌÇÑ´Ù.
+        sin_family : ë°˜ë“œì‹œ AF_INETì´ì–´ì•¼ í•œë‹¤.
+        sin_port : í¬íŠ¸ ë²ˆí˜¸ë¥¼ ì„¤ì •í•œë‹¤. 2byteë‚´ì—ì„œ í‘œí˜„ì´ ê°€ëŠ¥í•´ì•¼ í•˜ë©°, ê¸°ë³¸ í¬íŠ¸ë²ˆí˜¸ë¥¼ ì œì™¸í•œ ë‹¤ë¥¸ ë²ˆí˜¸ë¥¼ ì¨ì•¼ í•œë‹¤.
+            htons, htonl : Host to Networkì˜ ì•½ìë¡œ, ì´ í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•˜ë©´ ë¹…ì—”ë””ì•ˆ(ë°ì´í„°ë¥¼ ë©”ëª¨ë¦¬ì— ì•ì—ì„œë¶€í„° ì €ì¥) ë°©ì‹ìœ¼ë¡œ ë°ì´í„°ë¥¼ ë³€í™˜í•´ ì‚¬ìš©í•œë‹¤.
+        sin_addr : IPì£¼ì†Œ ì„¤ì •í•˜ê¸°
+            s_addr : IPv4ë¥¼ ì˜ë¯¸í•œë‹¤.
+            INADDR_ANYëŠ” í˜„ì¬ ë™ì‘ì¤‘ì¸ ì»´í“¨í„°ì˜ IP ì£¼ì†Œë¥¼ ì˜ë¯¸í•œë‹¤.
 
     */
     SOCKADDR_IN server_addr = {};
@@ -205,11 +211,11 @@ int main() {
     server_addr.sin_port = PORT;
     server_addr.sin_addr.s_addr = INADDR_ANY;
     
-    /*  
-        ¼ÒÄÏÀ» sockaddr¿¡ ¹ÙÀÎµùÇÏ°í, listen»óÅÂ·Î ¸¸µç´Ù.
+    /*
+        ì†Œì¼“ì„ sockaddrì— ë°”ì¸ë”©í•˜ê³ , listenìƒíƒœë¡œ ë§Œë“ ë‹¤.
         
-        bind(¼ÒÄÏ, ¼ÒÄÏ ±¸¼º¿ä¼Ò ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò, ±¸Á¶Ã¼ÀÇ Å©±â)
-        listen(¼ÒÄÏ, ÃÖ´ë Á¢¼ÓÁßÀÎ ¼ö)
+        bind(ì†Œì¼“, ì†Œì¼“ êµ¬ì„±ìš”ì†Œ êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ, êµ¬ì¡°ì²´ì˜ í¬ê¸°)
+        listen(ì†Œì¼“, ìµœëŒ€ ì ‘ì†ì¤‘ì¸ ìˆ˜)
     */
     if (bind(server_socket, (SOCKADDR*)&server_addr, sizeof(server_addr)) == SOCKET_ERROR) {
         cerr << "Bind Failed : " << WSAGetLastError() << endl;
@@ -227,39 +233,39 @@ int main() {
         return 2;
     }
 
-    cout << "Å¬¶óÀÌ¾ğÆ® Á¢¼Ó ´ë±â Áß" << endl;
+    cout << "í´ë¼ì´ì–¸íŠ¸ ì ‘ì† ëŒ€ê¸° ì¤‘" << endl;
 
     /*
-        µé¾î¿À¸é AcceptÇÑ´Ù.
+        ë“¤ì–´ì˜¤ë©´ Acceptí•œë‹¤.
 
-        accept´Â µ¿±âÈ­µÈ ¹æ½ÄÀ¸·Î µ¿ÀÛÇÏ´Âµ¥, ÀÌ´Â ¿äÃ»À» ¸¶¹«¸®ÇÏ±â Àü±îÁö wait»óÅÂ°¡ µÇ´Â °ÍÀ» ÀÇ¹ÌÇÑ´Ù.
-        Á¢¼ÓÀ» ½ÂÀÎÇÏ¸é ¿¬°áµÈ ¼ÒÄÏÀÌ ¸¸µé¾îÁø´Ù.
-        ÀÎÀÚ·Î´Â ¼ÒÄÏ, acceptµÈ Å¬¶óÀÌ¾ğÆ®ÀÇ ±¸Á¶Á¤º¸ ±¸Á¶Ã¼, ±× Å©±â°¡ µé¾î°£´Ù.
+        acceptëŠ” ë™ê¸°í™”ëœ ë°©ì‹ìœ¼ë¡œ ë™ì‘í•˜ëŠ”ë°, ì´ëŠ” ìš”ì²­ì„ ë§ˆë¬´ë¦¬í•˜ê¸° ì „ê¹Œì§€ waitìƒíƒœê°€ ë˜ëŠ” ê²ƒì„ ì˜ë¯¸í•œë‹¤.
+        ì ‘ì†ì„ ìŠ¹ì¸í•˜ë©´ ì—°ê²°ëœ ì†Œì¼“ì´ ë§Œë“¤ì–´ì§„ë‹¤.
+        ì¸ìë¡œëŠ” ì†Œì¼“, acceptëœ í´ë¼ì´ì–¸íŠ¸ì˜ êµ¬ì¡°ì •ë³´ êµ¬ì¡°ì²´, ê·¸ í¬ê¸°ê°€ ë“¤ì–´ê°„ë‹¤.
     */
     while (true) {
-        // sockaddr°ú socketÀ» ¸¸µé°í, accept¸¦ ¼öÇàÇÑ´Ù.
+        // sockaddrê³¼ socketì„ ë§Œë“¤ê³ , acceptë¥¼ ìˆ˜í–‰í•œë‹¤.
         SOCKADDR_IN tClntAddr = {};
         int iClntSize = sizeof(tClntAddr);
         SOCKET hClient = accept(server_socket, (SOCKADDR*)&tClntAddr, &iClntSize);
 
-        // Àß ¿¬°áµÇÁö ¾Ê¾Ò´Ù¸é, À§ÀÇ ·çÇÁ¸¦ ´Ù½Ã ÁøÇà
+        // ì˜ ì—°ê²°ë˜ì§€ ì•Šì•˜ë‹¤ë©´, ìœ„ì˜ ë£¨í”„ë¥¼ ë‹¤ì‹œ ì§„í–‰
         if (hClient == INVALID_SOCKET) {
             closesocket(hClient);
             continue;
         }
 
         thread client_thread(handle_client, hClient);
-        // ¸¹Àº À¯Àú¸¦ while¿¡¼­ ¹Ş±â ¶§¹®¿¡ detachÇØ¼­ ¾Ë¾Æ¼­ ½ÇÇàµÇµµ·Ï ÇÑ´Ù.
+        // ë§ì€ ìœ ì €ë¥¼ whileì—ì„œ ë°›ê¸° ë•Œë¬¸ì— detachí•´ì„œ ì•Œì•„ì„œ ì‹¤í–‰ë˜ë„ë¡ í•œë‹¤.
         client_thread.detach();
     }
 
     /*
-        ¹öÆÛ¸¦ »ı¼ºÇÏ°í ¸Ş¼¼Áö¸¦ ¹Ş°í, ¸Ş¼¼Áö¸¦ ¶Ç º¸³½´Ù
+        ë²„í¼ë¥¼ ìƒì„±í•˜ê³  ë©”ì„¸ì§€ë¥¼ ë°›ê³ , ë©”ì„¸ì§€ë¥¼ ë˜ ë³´ë‚¸ë‹¤
 
-        recv¿¡´Â ¹ŞÀ» ¼ÒÄÏ, ¸Ş¼¼Áö¸¦ ¹ŞÀ» °ø°£, ±× °ø°£ÀÇ Å©±â, flag¸¦ ³Ö´Â´Ù.
-        flag´Â º°µµ·Î È°¼ºÈ­ÇÏÁö ¾ÊÀ» °ÍÀÌ¹Ç·Î ¾²Áö ¾ÊÀ½
+        recvì—ëŠ” ë°›ì„ ì†Œì¼“, ë©”ì„¸ì§€ë¥¼ ë°›ì„ ê³µê°„, ê·¸ ê³µê°„ì˜ í¬ê¸°, flagë¥¼ ë„£ëŠ”ë‹¤.
+        flagëŠ” ë³„ë„ë¡œ í™œì„±í™”í•˜ì§€ ì•Šì„ ê²ƒì´ë¯€ë¡œ ì“°ì§€ ì•ŠìŒ
 
-        send´Â º¸³¾ ¼ÒÄÏ, º¸³¾ ¸Ş¼¼Áö, ±æÀÌ, flag¸¦ ³Ö´Â´Ù.
+        sendëŠ” ë³´ë‚¼ ì†Œì¼“, ë³´ë‚¼ ë©”ì„¸ì§€, ê¸¸ì´, flagë¥¼ ë„£ëŠ”ë‹¤.
     */
 
     WSACleanup();
