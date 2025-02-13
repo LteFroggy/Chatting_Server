@@ -1,0 +1,7 @@
+C:/Users/zac03/Documents/GitHub/Chatting_Server/hiredis_build/hiredis.dir/MinSizeRel/alloc.obj
+C:/Users/zac03/Documents/GitHub/Chatting_Server/hiredis_build/hiredis.dir/MinSizeRel/async.obj
+C:/Users/zac03/Documents/GitHub/Chatting_Server/hiredis_build/hiredis.dir/MinSizeRel/hiredis.obj
+C:/Users/zac03/Documents/GitHub/Chatting_Server/hiredis_build/hiredis.dir/MinSizeRel/net.obj
+C:/Users/zac03/Documents/GitHub/Chatting_Server/hiredis_build/hiredis.dir/MinSizeRel/read.obj
+C:/Users/zac03/Documents/GitHub/Chatting_Server/hiredis_build/hiredis.dir/MinSizeRel/sds.obj
+C:/Users/zac03/Documents/GitHub/Chatting_Server/hiredis_build/hiredis.dir/MinSizeRel/sockcompat.obj
