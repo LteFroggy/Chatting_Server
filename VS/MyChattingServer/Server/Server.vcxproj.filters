@@ -29,10 +29,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="socketUtils.h">
+    <ClInclude Include="dbUtils.h">
       <Filter>소스 파일\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="dbUtils.h">
+    <ClInclude Include="socketUtils.h">
       <Filter>소스 파일\Utils</Filter>
     </ClInclude>
   </ItemGroup>

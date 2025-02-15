@@ -1,70 +1,77 @@
-#include <string>
+ï»¿#include <string>
 #include <vector>
+#include <thread>
+#include <mutex>
 #include <iostream>
-#include <ws2tcpip.h> // inet_pton »ç¿ëÀ» À§ÇÑ Çì´õ Ãß°¡
+#include <ws2tcpip.h> // inet_pton ì‚¬ìš©ì„ ìœ„í•œ í—¤ë” ì¶”ê°€
 #include <WinSock2.h>
 
-#pragma comment(lib, "ws2_32")
+#include "socketUtils_client.h"
 
 using namespace std;
 
-#define PORT 13542
-#define BUFFER_SIZE 1024
-#define SERVER_IP "127.0.0.1"
-
 /*
-    Å¬¶óÀÌ¾ðÆ®´Â ¼ÒÄÏÀ» »ý¼ºÇÏ°í, ¿¬°áÀ» ¿äÃ»ÇÑ´Ù.
+    í´ë¼ì´ì–¸íŠ¸ëŠ” ì†Œì¼“ì„ ìƒì„±í•˜ê³ , ì—°ê²°ì„ ìš”ì²­í•œë‹¤.
 
-    ¿¬°á ÈÄ¿¡´Â ´Ù¾çÇÑ ¸Þ¼¼Áö¸¦ º¸³»°í, ¸Þ¼¼ÁöÀÇ Çì´õ¸¦ ÅëÇØ ¼­¹ö´Â ±×¿¡ °É¸Â´Â ¿äÃ»À» Ã³¸®ÇÑ´Ù.
-    ¿äÃ» Ã³¸® ½Ã¿¡´Â ²À ±ÇÇÑÀÌ Á¸ÀçÇÏ´Â »óÈ²ÀÎÁö È®ÀÎÇØ¾ß ÇÔ.
+    ì—°ê²° í›„ì—ëŠ” ë‹¤ì–‘í•œ ë©”ì„¸ì§€ë¥¼ ë³´ë‚´ê³ , ë©”ì„¸ì§€ì˜ í—¤ë”ë¥¼ í†µí•´ ì„œë²„ëŠ” ê·¸ì— ê±¸ë§žëŠ” ìš”ì²­ì„ ì²˜ë¦¬í•œë‹¤.
+    ìš”ì²­ ì²˜ë¦¬ ì‹œì—ëŠ” ê¼­ ê¶Œí•œì´ ì¡´ìž¬í•˜ëŠ” ìƒí™©ì¸ì§€ í™•ì¸í•´ì•¼ í•¨.
 
-    ### Ã¤ÆÃ Çì´õ °ü·Ã
+    ### ì±„íŒ… í—¤ë” ê´€ë ¨
 
-    Client¿¡¼­ Àü¼ÛÇÑ ¸Þ¼¼Áö°¡ ¾î¶² ±â´ÉÀ» ¼öÇàÇÏ±â À§ÇÑ ¸Þ¼¼ÁöÀÎÁö¸¦ ±¸ºÐÇÏ±â À§ÇØ, Çì´õ¸¦ ÅëÇØ ±¸ºÐÇÑ´Ù
-    - login ¡æ ¡°login id/pw¡± ¿Í °°Àº Çü½ÄÀ¸·Î Àü¼ÛµÇ¸ç, ¹ÞÀº ¸Þ¼¼Áö¸¦ ±â¹ÝÀ¸·Î DBÁ¶È¸¸¦ ÅëÇØ ·Î±×ÀÎÀ» ¼öÇàÇÑ´Ù
-    - join ¡æ ¡°join id/pw¡±¿Í °°Àº Çü½ÄÀ¸·Î Àü¼ÛµÇ°í, ¼­¹ö´Â ÀÌ¸¦ ±â¹ÝÀ¸·Î DB¿¡ µî·ÏÇÑ´Ù. IDÁßº¹È®ÀÎÀº ÇÊ¿ä
-    - chat ¡æ ¡°chat msg¡± ¿Í °°Àº Çü½ÄÀ¸·Î Àü¼ÛµÇ¸ç, ¸Þ¼¼Áö¸¦ Àü¼Û
-    - gamechat ¡æ ¡°gamechat msg¡± ¿Í °°Àº Çü½ÄÀ¸·Î Àü¼ÛµÇ¸ç, ³¡¸»ÀÕ±â ³¹¸»À» Àü¼ÛÇÑ´Ù
-    - whisper ¡æ ¡°whisper target msg¡±¿Í °°Àº Çü½ÄÀ¸·Î Àü¼ÛµÇ°í, Å¸°Ù¿¡°Ô ±Ó¼Ó¸»À» ÁØ´Ù
-    - quit 
+    Clientì—ì„œ ì „ì†¡í•œ ë©”ì„¸ì§€ê°€ ì–´ë–¤ ê¸°ëŠ¥ì„ ìˆ˜í–‰í•˜ê¸° ìœ„í•œ ë©”ì„¸ì§€ì¸ì§€ë¥¼ êµ¬ë¶„í•˜ê¸° ìœ„í•´, í—¤ë”ë¥¼ í†µí•´ êµ¬ë¶„í•œë‹¤
+    - login â†’ â€œlogin id/pwâ€ ì™€ ê°™ì€ í˜•ì‹ìœ¼ë¡œ ì „ì†¡ë˜ë©°, ë°›ì€ ë©”ì„¸ì§€ë¥¼ ê¸°ë°˜ìœ¼ë¡œ DBì¡°íšŒë¥¼ í†µí•´ ë¡œê·¸ì¸ì„ ìˆ˜í–‰í•œë‹¤
+    - join â†’ â€œjoin id/pwâ€ì™€ ê°™ì€ í˜•ì‹ìœ¼ë¡œ ì „ì†¡ë˜ê³ , ì„œë²„ëŠ” ì´ë¥¼ ê¸°ë°˜ìœ¼ë¡œ DBì— ë“±ë¡í•œë‹¤. IDì¤‘ë³µí™•ì¸ì€ í•„ìš”
+    - chat â†’ â€œchat msgâ€ ì™€ ê°™ì€ í˜•ì‹ìœ¼ë¡œ ì „ì†¡ë˜ë©°, ë©”ì„¸ì§€ë¥¼ ì „ì†¡
+    - gamechat â†’ â€œgamechat msgâ€ ì™€ ê°™ì€ í˜•ì‹ìœ¼ë¡œ ì „ì†¡ë˜ë©°, ëë§ìž‡ê¸° ë‚±ë§ì„ ì „ì†¡í•œë‹¤
+    - whisper â†’ â€œwhisper target msgâ€ì™€ ê°™ì€ í˜•ì‹ìœ¼ë¡œ ì „ì†¡ë˜ê³ , íƒ€ê²Ÿì—ê²Œ ê·“ì†ë§ì„ ì¤€ë‹¤
+    - quit
 */
+mutex MSG_MUTEX;
+vector<string> MESSAGE_LIST;
+string STATE = "LOGIN";
+
+void toLoginScreen();
+void printScreen();
 
 int main() {
-    WSADATA wsaData;
-    WSAStartup(MAKEWORD(2, 2), &wsaData);
+    SOCKET clientSocket = socketUtils::connectToServer();
 
-
-    // Å¬¶óÀÌ¾ðÆ®ÀÇ ¼ÒÄÏÀ» »ý¼ºÇÑ´Ù.
-    SOCKET clientSocket;
-    clientSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (clientSocket == INVALID_SOCKET) {
-        cout << "Å¬¶óÀÌ¾ðÆ® ¼ÒÄÏ »ý¼º ½ÇÆÐ" << endl;
-        return -1;
-    }
-
-    SOCKADDR_IN serverAddr = {}; // ¼­¹ö ÁÖ¼Ò Á¤º¸¸¦ ÀúÀåÇÒ ±¸Á¶Ã¼ ÃÊ±âÈ­
-    serverAddr.sin_family = PF_INET; // IPv4 ÁÖ¼Ò Ã¼°è¸¦ »ç¿ë
-    serverAddr.sin_port = htons(PORT); // Æ÷Æ® ¹øÈ£¸¦ ³×Æ®¿öÅ© ¹ÙÀÌÆ® ¼ø¼­·Î º¯È¯ ÈÄ ÇÒ´ç
-    inet_pton(AF_INET, SERVER_IP, &serverAddr.sin_addr);
-
-
-    // À§ÀÇ Á¤º¸¸¦ ÀÌ¿ëÇØ ¼­¹ö¿Í ¿¬°áÇÑ´Ù.
-    if (connect(clientSocket, (SOCKADDR*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
-        cout << "Connection failed : " << WSAGetLastError() << endl;
-        closesocket(clientSocket);
+    if (clientSocket == -1) {
+        cout << "ì„œë²„ì™€ ì—°ê²°ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤" << endl;
         WSACleanup();
-        return 1;
+        return 0;
     }
 
-    // ¸Þ¼¼Áö¸¦ ÇÏ³ª º¸³»°í Á¾·áÇÑ´Ù
-    string message = "Hello Server! I'm Client";
-    if (send(clientSocket, message.c_str(), message.length(), 0) == SOCKET_ERROR) {
-        cout << "¸Þ¼¼Áö Àü¼Û¿¡ ½ÇÆÐÇÏ¿´½À´Ï´Ù" << endl;
-    }
-    else {
-        cout << "¸Þ¼¼Áö Àü¼Û ¼º°ø!" << endl;
-    }
+    // ë¡œê·¸ì¸ í™”ë©´ìœ¼ë¡œ ë„˜ì–´ê°„ë‹¤
+    toLoginScreen();
 
     WSACleanup();
     return 0;
+}
+
+// ì²˜ìŒì—” ë¡œê·¸ì¸ í™”ë©´ìœ¼ë¡œ ë“¤ì–´ê°„ë‹¤
+void toLoginScreen() {
+    // ì´ˆê¸°í™”ë©´ ë©”ì„¸ì§€ ì¶œë ¥
+    MSG_MUTEX.lock();
+    MESSAGE_LIST.push_back("ì„œë²„ì— ì ‘ì†ë˜ì—ˆìŠµë‹ˆë‹¤");
+    MESSAGE_LIST.push_back("ë¡œê·¸ì¸ : 1");
+    MESSAGE_LIST.push_back("íšŒì›ê°€ìž… : 2");
+    MSG_MUTEX.unlock();
+    printScreen();
+
+    // ìœ ì €ì—ê²Œ 1 í˜¹ì€ 2ë¥¼ ìž…ë ¥ë°›ì„ë•Œê¹Œì§€ ìž…ë ¥ ë°›ê¸°
+    string userInput;
+    while (true) {
+        cout << "ë²ˆí˜¸ë¥¼ ìž…ë ¥í•˜ì„¸ìš” : ";
+        getline(cin, userInput);
+
+        if (userInput == "1" || userInput == "2") break;
+        else cout << "ì˜¬ë°”ë¥´ì§€ ì•Šì€ ìž…ë ¥ìž…ë‹ˆë‹¤! ë‹¤ì‹œ ìž…ë ¥í•´ì£¼ì„¸ìš”" << endl;
+    }
+}
+
+void printScreen() {
+    system("cls");
+    for (auto v : MESSAGE_LIST) cout << v << endl;
+    return;
 }

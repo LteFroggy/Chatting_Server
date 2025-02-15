@@ -1,4 +1,4 @@
-#include "dbUtils.h"
+﻿#include "dbUtils.h"
 
 // MySQL과의 연결을 생성한다.
 
@@ -11,10 +11,10 @@ void mysql::makeConnection() {
 		sql::mysql::MySQL_Driver* driver;
 
 		// 드라이버 초기화
-		driver = sql::mysql::get_mysql_driver_instance(); 
+		driver = sql::mysql::get_mysql_driver_instance();
 		// 드라이버를 통해 특정 주소, 포트에 연결한다.
 		mysql_conn = driver->connect("tcp://" + string(MYSQL_ADDRESS) + ":" + to_string(MYSQL_PORT), "root", "1372");
-		 
+
 		// 채팅 서버 database 설정
 		mysql_conn->setSchema("chatserver");
 	}
@@ -32,7 +32,7 @@ userInfo mysql::mysql::getUserinfoByID(string id) {
 		sql::PreparedStatement* pstmt;
 		sql::ResultSet* result;
 
-		string query = 
+		string query =
 			"SELECT id, pwd, nickname "
 			"FROM userinfo "
 			"WHERE id = ?";
@@ -43,9 +43,10 @@ userInfo mysql::mysql::getUserinfoByID(string id) {
 
 		result = pstmt->executeQuery();
 
+		// 결과가 없다면, exception 던지기
+		if (result->next()) throw NoIDException("일치하는 아이디가 없습니다");
 
-		// tmp라는 구조체 만들어 데이터 할당하기
-		result->next();
+		// tmp라는 구조체 만들어 데이터 할당하고 반환
 		userInfo tmp(result->getString("id"), result->getString("pwd"), result->getString("nickname"));
 
 		// 리소스 정리
@@ -55,7 +56,7 @@ userInfo mysql::mysql::getUserinfoByID(string id) {
 		return tmp;
 	}
 
-	catch (sql::SQLException &e) {
+	catch (sql::SQLException& e) {
 		cout << "SQLException : " << e.what() << endl;
 		cout << "MySQL Error Code : " << e.getErrorCode() << endl;
 		cout << "SQLState" << e.getSQLState() << endl;
@@ -78,7 +79,10 @@ userInfo mysql::mysql::getUserinfoByNickname(string nickname) {
 		pstmt->setString(1, nickname);
 		result = pstmt->executeQuery();
 
-		// tmp라는 구조체 만들어 데이터 할당하기
+		// 결과가 없다면, exception 던지기
+		if (result->next()) throw NoIDException("닉네임과 일치하는 아이디가 없습니다");
+
+		// tmp라는 구조체 만들어 데이터 할당하고 반환
 		userInfo tmp(result->getString("id"), result->getString("pwd"), result->getString("nickname"));
 
 		// 리소스 정리
@@ -88,7 +92,7 @@ userInfo mysql::mysql::getUserinfoByNickname(string nickname) {
 		return tmp;
 	}
 
-	catch (sql::SQLException &e) {
+	catch (sql::SQLException& e) {
 		cout << "SQLException : " << e.what() << endl;
 		cout << "MySQL Error Code : " << e.getErrorCode() << endl;
 		cout << "SQLState" << e.getSQLState() << endl;
@@ -146,7 +150,7 @@ bool mysql::isDuplicateID(string id) {
 		cout << "MySQL Error Code : " << e.getErrorCode() << endl;
 		cout << "SQLState" << e.getSQLState() << endl;
 	}
-	
+
 }
 
 bool mysql::isDuplicateNickname(string nickname) {
@@ -189,4 +193,3 @@ string redis::getValue(string key) {
 void redis::setValue(string key, string value) {
 	redis_conn->set(key, value);
 }
-	
