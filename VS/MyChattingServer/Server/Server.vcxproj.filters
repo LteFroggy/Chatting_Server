@@ -13,10 +13,27 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\Utils">
+      <UniqueIdentifier>{eebf61e9-4533-4ade-be61-1a2fb84dad8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="dbUtils.cpp">
+      <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="socketUtils.cpp">
+      <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="socketUtils.h">
+      <Filter>소스 파일\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="dbUtils.h">
+      <Filter>소스 파일\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

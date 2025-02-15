@@ -2,40 +2,31 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
-#include <ws2tcpip.h>
-#include <WinSock2.h>
-#include <sw/redis++/redis.h>
 
-#pragma comment(lib, "ws2_32")
+#include "socketUtils.h"
+#include "dbUtils.h"
 
 using namespace std;
 using namespace sw::redis;
-
-#define PORT 13542
-#define BUFFER_SIZE 1024
-
-
-/* ¹Ì¸® Á¤ÀÇµÈ ÇÔ¼ö ¸ñ·Ï */
-SOCKET makeSocket();
 
 int main() {
     SOCKET serverSocket = makeSocket();
 
     /* Redis Test! */
-    cout << "ÄÚµå´Â Àß ½ÇÇàµÊ" << endl;
+    cout << "Redis Test!" << endl;
+    redis::makeConnection();
+    redis::setValue("Myname", "Wonjong");
+    cout << redis::getValue("Myname") << endl;
+
+    cout << endl << endl;
     
-    auto redis = Redis("tcp://127.0.0.1:6379");
-    redis.set("myKey", "Hello, Redis++!");
-    cout << "Å°-°ª ¼³Á¤ ¿Ï·á" << endl;
-    
-    auto result = redis.get("myKey");
-    if (result) {
-        cout << "¼³Á¤ÇÑ °á°ú´Â " << *result << " ÀÔ´Ï´Ù" << endl;
-    }
-    else {
-        cout << "°á°ú¸¦ ¹Þ¾Æ¿ÀÁö ¸øÇß½À´Ï´Ù" << endl;
-    }
-    
+    /* mySQL Test */
+
+    cout << "MYSQL TEST" << endl;
+    mysql::makeConnection();
+    userInfo tmp = mysql::getUserinfoByID("zac0328");
+
+    cout << "ìœ ì €ì˜ ë‹‰ë„¤ìž„ì€ " + tmp.nickname << endl;
 
     //if (listen(serverSocket, SOMAXCONN) == SOCKET_ERROR) {
     //    cerr << "Listen Failed : " << WSAGetLastError() << endl;
@@ -45,34 +36,34 @@ int main() {
     //    return 2;
     //}
 
-    //cout << "Å¬¶óÀÌ¾ðÆ® Á¢¼Ó ´ë±â Áß" << endl;
+    //cout << "í´ë¼ì´ì–¸íŠ¸ ì ‘ì† ëŒ€ê¸° ì¤‘" << endl;
 
     ///*
-    //    µé¾î¿À¸é AcceptÇÑ´Ù.
+    //    ë“¤ì–´ì˜¤ë©´ Acceptí•œë‹¤.
 
-    //    accept´Â µ¿±âÈ­µÈ ¹æ½ÄÀ¸·Î µ¿ÀÛÇÏ´Âµ¥, ÀÌ´Â ¿äÃ»À» ¸¶¹«¸®ÇÏ±â Àü±îÁö wait»óÅÂ°¡ µÇ´Â °ÍÀ» ÀÇ¹ÌÇÑ´Ù.
-    //    Á¢¼ÓÀ» ½ÂÀÎÇÏ¸é ¿¬°áµÈ ¼ÒÄÏÀÌ ¸¸µé¾îÁø´Ù.
-    //    ÀÎÀÚ·Î´Â ¼ÒÄÏ, acceptµÈ Å¬¶óÀÌ¾ðÆ®ÀÇ ±¸Á¶Á¤º¸ ±¸Á¶Ã¼, ±× Å©±â°¡ µé¾î°£´Ù.
+    //    acceptëŠ” ë™ê¸°í™”ëœ ë°©ì‹ìœ¼ë¡œ ë™ìž‘í•˜ëŠ”ë°, ì´ëŠ” ìš”ì²­ì„ ë§ˆë¬´ë¦¬í•˜ê¸° ì „ê¹Œì§€ waitìƒíƒœê°€ ë˜ëŠ” ê²ƒì„ ì˜ë¯¸í•œë‹¤.
+    //    ì ‘ì†ì„ ìŠ¹ì¸í•˜ë©´ ì—°ê²°ëœ ì†Œì¼“ì´ ë§Œë“¤ì–´ì§„ë‹¤.
+    //    ì¸ìžë¡œëŠ” ì†Œì¼“, acceptëœ í´ë¼ì´ì–¸íŠ¸ì˜ êµ¬ì¡°ì •ë³´ êµ¬ì¡°ì²´, ê·¸ í¬ê¸°ê°€ ë“¤ì–´ê°„ë‹¤.
     //*/
     //while (true) {
-    //    // sockaddr°ú socketÀ» ¸¸µé°í, accept¸¦ ¼öÇàÇÑ´Ù.
+    //    // sockaddrê³¼ socketì„ ë§Œë“¤ê³ , acceptë¥¼ ìˆ˜í–‰í•œë‹¤.
     //    SOCKADDR_IN tClntAddr = {};
     //    int iClntSize = sizeof(tClntAddr);
     //    SOCKET hClient = accept(serverSocket, (SOCKADDR*)&tClntAddr, &iClntSize);
 
-    //    // Àß ¿¬°áµÇÁö ¾Ê¾Ò´Ù¸é, À§ÀÇ ·çÇÁ¸¦ ´Ù½Ã ÁøÇà
+    //    // ìž˜ ì—°ê²°ë˜ì§€ ì•Šì•˜ë‹¤ë©´, ìœ„ì˜ ë£¨í”„ë¥¼ ë‹¤ì‹œ ì§„í–‰
     //    if (hClient == INVALID_SOCKET) {
     //        closesocket(hClient);
     //        continue;
     //    }
 
     //    else {
-    //        cout << "Å¬¶óÀÌ¾ðÆ® Á¢¼ÓµÊ" << endl;
+    //        cout << "í´ë¼ì´ì–¸íŠ¸ ì ‘ì†ë¨" << endl;
     //        char buffer[BUFFER_SIZE];
 
-    //        // ÀÏ´Ü ¸Þ¼¼Áö ÇÏ³ª¸¸ ¹Þ°í ¹Ù·Î µ¹·Áº¸³»±â·Î ÇÏÀÚ
+    //        // ì¼ë‹¨ ë©”ì„¸ì§€ í•˜ë‚˜ë§Œ ë°›ê³  ë°”ë¡œ ëŒë ¤ë³´ë‚´ê¸°ë¡œ í•˜ìž
     //        int recv_size = recv(hClient, buffer, BUFFER_SIZE - 1, 0);
-    //        // ¹ÞÀº ¸Þ¼¼Áö Å©±â¸¦ Àß¶óÁà¾ß¸¸ ¿øÈ°È÷ Ãâ·ÂµÈ´Ù
+    //        // ë°›ì€ ë©”ì„¸ì§€ í¬ê¸°ë¥¼ ìž˜ë¼ì¤˜ì•¼ë§Œ ì›í™œížˆ ì¶œë ¥ëœë‹¤
     //        buffer[recv_size] = '\0';
 
     //        cout << buffer << endl;
@@ -85,94 +76,5 @@ int main() {
     return 0;
 }
 
-
-/*
-    ¼­¹öÀÇ ¼ÒÄÏÀ» »ý¼ºÇÏ°í, ¹ÝÈ¯ÇÑ´Ù.
-*/
-SOCKET makeSocket() {
-    WSADATA wsaData;
-    /*
-        WinSock ÃÊ±âÈ­¸¦ À§ÇÑ ÄÚµå
-
-        WSADATA´Â WindowsÀÇ ¼ÒÄÏ ÃÊ±âÈ­ Á¤º¸ ÀúÀåÀ» À§ÇÑ ±¸Á¶Ã¼ÀÌ´Ù.
-        WSAStartup(¼ÒÄÏ ¹öÀü, WSADATRA ±¸Á¶Ã¼ ÁÖ¼Ò)
-            Á¦ÀÏ ¸ÕÀú È£ÃâÇØ¾ß ÇÏ´Â ÇÔ¼ö·Î, ¾î¶² ¼ÒÄÏÀ» Windows¿¡ ¾Ë·ÁÁÖ´Â °Í.
-            ¼ÒÄÏ ¹öÀü¿¡´Â 2.2¸¦ »ç¿ëÇÒ °ÍÀÌ°í, WORD typeÀ¸·Î µé¾î°£´Ù.
-            WORD´Â unsigned intÅ¸ÀÔÀÎµ¥, 2.2´Â double°ªÀÌ¹Ç·Î MAKEWORD¸¦ ÀÌ¿ëÇØ 2.2¸¦ »ç¿ëÇØ ¸¸µç´Ù.
-            2¹øÂ°¿¡´Â WSADATAÀÇ Æ÷ÀÎÅÍ¸¦ ¸¸µé¾î ³Ö´Â´Ù.
-    */
-    int iResult;
-    iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
-    if (iResult != 0) {
-        cerr << "WSAStartup Failed : " << iResult << endl;
-        return -1;
-    }
-
-    /*
-        ¼ÒÄÏ »õ·Î »ý¼ºÇÏ±â
-
-        socket(int domain, int type, int protocol)
-
-        domain
-            AF_INET : IPv4 »ç¿ë
-            AF_INET6 : IPv6 »ç¿ë
-
-        type
-            SOCK_STREAM : ¿¬°áÁöÇâÇü, ½Å·Ú¼ºÀÖ´Â Åë½Å Áö¿ø, ¼ø¼­´ë·Î µµÂøÇÏ¸ç °æ°è°¡ ¾ø´Ù. (TCP)
-            SOCK_DGRAM : ºñ¿¬°áÁöÇâÇü, ½Å·Ú¼ºº¸´Ü ¼Óµµ¸¦ Áß¿ä½ÃÇÏ¸ç, ÆÐÅ¶ ´ÜÀ§·Î µ¥ÀÌÅÍ¸¦ Àü¼ÛÇÑ´Ù. (UDP)
-
-        protocol -> ±âº»ÀûÀ¸·Î Domain, Type¿¡ ÀÇÇØ ÀÚµ¿À¸·Î °áÁ¤µÇ³ª, ¸í½ÃÇÏ°í ½ÍÀ» ¶§ »ç¿ë
-            IPROTO_TCP : TCP¸¦ »ç¿ëÇÏ°Ú´Ù°í ¼±ÅÃ
-            IRPOTO_UDP : UDP¸¦ »ç¿ëÇÏ°Ú´Ù´Â ÀÇ¹Ì
-    */
-    SOCKET serverSocket;
-    serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (serverSocket == INVALID_SOCKET) {
-        cerr << "¼ÒÄÏ »ý¼º ½ÇÆÐ : " << WSAGetLastError() << endl;
-        closesocket(serverSocket);
-        WSACleanup();
-        system("pause");
-        return -1;
-    }
-
-    /*
-        ¼ÒÄÏÀÇ ±¸¼º¿ä¼Ò¸¦ ´ãÀ» ±¸Á¶Ã¼ »ý¼º ¹× °ª ÇÒ´ç
-
-        À§¿¡ ¾ð±ÞÇÑ  ¼ÒÄÏÀÇ ±¸¼º¿ä¼Ò¸¦ ÁöÁ¤ÇÏ¿© ÁÖ¼ÒÁ¤º¸¸¦ ¸¸µç´Ù.
-        ÁÖ¼Ò´Â IP¿Í PORTÀÇ µÎ °¡Áö ¿ä¼Ò°¡ ÀÖ´Ù.
-
-        SOCKADDR_INÀº Windows¼ÒÄÏ¿¡¼­ ¼ÒÄÏÀ» ¿¬°áÇÒ ·ÎÄÃ ¹× ¿ø°Ý ÁÖ¼Ò¸¦ ÁöÁ¤ÇÏ´Â µ¥¿¡ »ç¿ëµÈ´Ù.
-        Áï, ÁÖ¼Ò Á¤º¸¸¦ ´ã¾ÆµÎ±â À§ÇÑ ±¸Á¶Ã¼ÀÌ´Ù.
-
-        sin_family : ¹Ýµå½Ã AF_INETÀÌ¾î¾ß ÇÑ´Ù.
-        sin_port : Æ÷Æ® ¹øÈ£¸¦ ¼³Á¤ÇÑ´Ù. 2byte³»¿¡¼­ Ç¥ÇöÀÌ °¡´ÉÇØ¾ß ÇÏ¸ç, ±âº» Æ÷Æ®¹øÈ£¸¦ Á¦¿ÜÇÑ ´Ù¸¥ ¹øÈ£¸¦ ½á¾ß ÇÑ´Ù.
-            htons, htonl : Host to NetworkÀÇ ¾àÀÚ·Î, ÀÌ ÇÔ¼ö¸¦ »ç¿ëÇÏ¸é ºò¿£µð¾È(µ¥ÀÌÅÍ¸¦ ¸Þ¸ð¸®¿¡ ¾Õ¿¡¼­ºÎÅÍ ÀúÀå) ¹æ½ÄÀ¸·Î µ¥ÀÌÅÍ¸¦ º¯È¯ÇØ »ç¿ëÇÑ´Ù.
-        sin_addr : IPÁÖ¼Ò ¼³Á¤ÇÏ±â
-            s_addr : IPv4¸¦ ÀÇ¹ÌÇÑ´Ù.
-            INADDR_ANY´Â ÇöÀç µ¿ÀÛÁßÀÎ ÄÄÇ»ÅÍÀÇ IP ÁÖ¼Ò¸¦ ÀÇ¹ÌÇÑ´Ù.
-
-    */
-    SOCKADDR_IN server_addr = {};
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(PORT);
-    server_addr.sin_addr.s_addr = INADDR_ANY;
-
-    /*
-        ¼ÒÄÏÀ» sockaddr¿¡ ¹ÙÀÎµùÇÏ°í, listen»óÅÂ·Î ¸¸µç´Ù.
-
-        bind(¼ÒÄÏ, ¼ÒÄÏ ±¸¼º¿ä¼Ò ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò, ±¸Á¶Ã¼ÀÇ Å©±â)
-        listen(¼ÒÄÏ, ÃÖ´ë Á¢¼ÓÁßÀÎ ¼ö)
-    */
-    bind(serverSocket, (SOCKADDR*)&server_addr, sizeof(server_addr));
-
-    /* hiredis·Î ÀÎÇØ ¿À·ù°¡ »ý°Ü¼­ ÁÖ¼®Ã³¸® */
-    //if (bind(serverSocket, (SOCKADDR*)&server_addr, sizeof(server_addr)) == SOCKET_ERROR) {
-    //    cerr << "Bind Failed : " << WSAGetLastError() << endl;
-    //    closesocket(serverSocket);
-    //    WSACleanup();
-    //    system("pause");
-    //    return 1;
-    //}
-    
-    return serverSocket;
-}
+// MySQLê³¼ì˜ ì—°ê²°ì„ ìƒì„±í•œë‹¤. 
+sql::Connection makeConnect();
