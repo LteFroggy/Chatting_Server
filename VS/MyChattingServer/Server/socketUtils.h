@@ -25,6 +25,7 @@ public :
 	static SOCKET openSocket();
 
 	static void addNewSession(SOCKET client_socket);
+	static void addToUsermap(SOCKET client_socket, userInfo user);
 	static void handleClient(SOCKET client_socket);
 
 	static void user_login(SOCKET client_socket, string msg);

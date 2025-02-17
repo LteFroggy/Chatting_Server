@@ -136,7 +136,7 @@ void socketUtils::user_login(SOCKET client_socket, string msg) {
         // 아이디, 비밀번호를 찾아 중복체크를 수행한다.
         userInfo tmp = mysql::getUserinfoByID(id);
 
-        // 아이디가 존재한다면, 비밀번호를 비교한다.
+        // 아이디가 존재한다면, 비밀번호를 비교한다.   
         if (id == tmp.id && pwd == tmp.pwd) {
             // 모두 동일하다면, 로그인을 성공시킨다.
             
@@ -148,8 +148,6 @@ void socketUtils::user_login(SOCKET client_socket, string msg) {
         sendMessage(client_socket, e.what());
         handleClient(client_socket);
     }
-
-
 }
 
 // ====================================================================================================================================
@@ -168,6 +166,24 @@ void socketUtils::addNewSession(SOCKET client_socket) {
     socketUtils::sessionMutex.lock();
     socketUtils::sessionMap.insert({ client_socket, "newUser" });
     socketUtils::sessionMutex.unlock();
+
+    // 등록 완료했다면, handleClient에 넘긴다!
+    handleClient(client_socket);
+}
+
+// ====================================================================================================================================
+// 어떤 유저의 로그인이 성공하면, sessionMap에서 그 유저를 삭제하고 userMap에 추가시킨다.
+// ====================================================================================================================================
+void socketUtils::addToUsermap(SOCKET client_socket, userInfo user) {
+    // 새 유저가 들어오면, sessionMap에서 값을 꺼낸다
+    socketUtils::sessionMutex.lock();
+    socketUtils::sessionMap.erase(client_socket);
+    socketUtils::sessionMutex.unlock();
+
+    // 그리고 유저명과 함께 userMap에 넣는다
+    socketUtils::userMutex.lock();
+    socketUtils::userMap.insert({ user.nickname, client_socket) });
+    socketUtils::userMutex.unlock();
 
     // 등록 완료했다면, handleClient에 넘긴다!
     handleClient(client_socket);
