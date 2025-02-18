@@ -13,8 +13,6 @@ using namespace std;
 #define PORT 13542
 #define BUFFER_SIZE 1024
 
-
-
 class socketUtils {
 public :
 	static unordered_map<int, string> sessionMap;
@@ -29,7 +27,7 @@ public :
 	static void handleClient(SOCKET client_socket);
 
 	static void user_login(SOCKET client_socket, string msg);
-	static void sendMessage(SOCKET client_socket, string msg);
+	static void sendMessage(SOCKET client_socket, string msg, int code);
 };
 
 class utils {

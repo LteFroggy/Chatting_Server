@@ -118,7 +118,7 @@ void socketUtils::handleClient(SOCKET client_socket) {
 }
 
 // ====================================================================================================================================
-// LOGIN
+// 로그인을 수행한다! 로그인 이후 닉네임이 설정되어있지 않다면 닉네임 설정 메세지를, 
 // login → “login id|pw” 와 같은 형식으로 전송되며, 받은 메세지를 기반으로 DB조회를 통해 로그인을 수행한다
 // ====================================================================================================================================
 void socketUtils::user_login(SOCKET client_socket, string msg) {
@@ -139,13 +139,22 @@ void socketUtils::user_login(SOCKET client_socket, string msg) {
         // 아이디가 존재한다면, 비밀번호를 비교한다.   
         if (id == tmp.id && pwd == tmp.pwd) {
             // 모두 동일하다면, 로그인을 성공시킨다.
-            
+            socketUtils::addToUsermap(client_socket, tmp);
         }
+
+        // 첫 접속 유저라서 닉네임이 없다면, 닉네임 없음을 전달한다
+        socketUtils::sendMessage(client_socket, "NONICKNAME");
+
+        // 그게 아니면, 환영 메세지를 전달한다
+        string msgToSend = "MSG 반갑습니다 " + tmp.nickname + "님! 현재 접속 인원은 " + to_string(socketUtils::userMap.size()) + "명입니다";
+        socketUtils::sendMessage(client_socket, msgToSend);
+
+        // 현재 로비에 있는 모든 사람들에게도 메세지를 전달한다.
     }
 
     // 입력한 아이디가 없다면, 에러메세지 반환 후 값 받는 상태로 돌아간다.
     catch (NoIDException e) {
-        sendMessage(client_socket, e.what());
+        sendMessage(client_socket, e.what(), );
         handleClient(client_socket);
     }
 }
@@ -153,7 +162,7 @@ void socketUtils::user_login(SOCKET client_socket, string msg) {
 // ====================================================================================================================================
 // 특정 클라이언트에게 메세지를 보내는 함수
 // ====================================================================================================================================
-void socketUtils::sendMessage(SOCKET client_socket, string msg) {
+void socketUtils::sendMessage(SOCKET client_socket, string msg, int code) {
     send(client_socket, msg.c_str(), msg.length(), 0);
 }
 
@@ -172,7 +181,8 @@ void socketUtils::addNewSession(SOCKET client_socket) {
 }
 
 // ====================================================================================================================================
-// 어떤 유저의 로그인이 성공하면, sessionMap에서 그 유저를 삭제하고 userMap에 추가시킨다.
+// 어떤 유저의 로그인이 성공하면, sessionMap에서 그 유저를 삭제하고 userMap에 추가시킨다
+// 또한 Redis에 유저의 State를 접속중으로 변경시킨다
 // ====================================================================================================================================
 void socketUtils::addToUsermap(SOCKET client_socket, userInfo user) {
     // 새 유저가 들어오면, sessionMap에서 값을 꺼낸다
@@ -182,11 +192,10 @@ void socketUtils::addToUsermap(SOCKET client_socket, userInfo user) {
 
     // 그리고 유저명과 함께 userMap에 넣는다
     socketUtils::userMutex.lock();
-    socketUtils::userMap.insert({ user.nickname, client_socket) });
+    socketUtils::userMap.insert({ user.nickname, client_socket });
     socketUtils::userMutex.unlock();
 
-    // 등록 완료했다면, handleClient에 넘긴다!
-    handleClient(client_socket);
+    redis::setValue(user.nickname + ":state", "ingame");
 }
 
 // ====================================================================================================================================

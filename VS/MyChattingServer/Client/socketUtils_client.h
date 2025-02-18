@@ -22,4 +22,5 @@ using namespace std;
 class socketUtils {
 public:
 	static SOCKET connectToServer();
+	static void sendMessageToServer(SOCKET client_socket, string msg, int code);
 };

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <ws2tcpip.h> // inet_pton 사용을 위한 헤더 추가
 #include <WinSock2.h>
+#include "message.h"
 
 #include "socketUtils_client.h"
 
@@ -67,6 +68,11 @@ void toLoginScreen() {
 
         if (userInput == "1" || userInput == "2") break;
         else cout << "올바르지 않은 입력입니다! 다시 입력해주세요" << endl;
+    }
+
+    // 1번이면, 로그인을 시도한다.
+    if (userInput == "1") {
+        
     }
 }
 
