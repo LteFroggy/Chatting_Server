@@ -1,0 +1,446 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BD9A7C88-7CA7-30E9-B4DD-894934DA9B7D}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>redis++</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">redis++.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">redis++</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">redis++.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">redis++</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">redis++.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">redis++</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">redis++.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">redis++</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\no_tls;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\cxx17;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Program Files/hiredis/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NOMINMAX;CMAKE_INTDIR="Debug";redis___EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;NOMINMAX;CMAKE_INTDIR=\"Debug\";redis___EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\no_tls;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\cxx17;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\src;C:\Program Files\hiredis\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\no_tls;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\cxx17;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\src;C:\Program Files\hiredis\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/redis++.dir/Debug/exports.def C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/redis++.dir/Debug//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>C:\Program Files\hiredis\lib\hiredisd.lib;ws2_32.lib;crypt32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/Debug/redis++.lib</ImportLibrary>
+      <ModuleDefinitionFile>C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/redis++.dir/Debug/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/Debug/redis++.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\no_tls;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\cxx17;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Program Files/hiredis/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR="Release";redis___EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR=\"Release\";redis___EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\no_tls;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\cxx17;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\src;C:\Program Files\hiredis\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\no_tls;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\cxx17;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\src;C:\Program Files\hiredis\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/redis++.dir/Release/exports.def C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/redis++.dir/Release//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>C:\Program Files\hiredis\lib\hiredis.lib;ws2_32.lib;crypt32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/Release/redis++.lib</ImportLibrary>
+      <ModuleDefinitionFile>C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/redis++.dir/Release/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/Release/redis++.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\no_tls;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\cxx17;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Program Files/hiredis/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR="MinSizeRel";redis___EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR=\"MinSizeRel\";redis___EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\no_tls;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\cxx17;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\src;C:\Program Files\hiredis\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\no_tls;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\cxx17;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\src;C:\Program Files\hiredis\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/redis++.dir/MinSizeRel/exports.def C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/redis++.dir/MinSizeRel//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>C:\Program Files\hiredis\lib\hiredisd.lib;ws2_32.lib;crypt32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/MinSizeRel/redis++.lib</ImportLibrary>
+      <ModuleDefinitionFile>C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/redis++.dir/MinSizeRel/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/MinSizeRel/redis++.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\no_tls;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\cxx17;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Program Files/hiredis/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR="RelWithDebInfo";redis___EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR=\"RelWithDebInfo\";redis___EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\no_tls;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\cxx17;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\src;C:\Program Files\hiredis\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\no_tls;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\cxx17;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\src;C:\Program Files\hiredis\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreLinkEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Auto build dll exports</Message>
+      <Command>setlocal
+cd C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E __create_def C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/redis++.dir/RelWithDebInfo/exports.def C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/redis++.dir/RelWithDebInfo//objects.txt
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalDependencies>C:\Program Files\hiredis\lib\hiredisd.lib;ws2_32.lib;crypt32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/RelWithDebInfo/redis++.lib</ImportLibrary>
+      <ModuleDefinitionFile>C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/redis++.dir/RelWithDebInfo/exports.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/RelWithDebInfo/redis++.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-master/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-master -BC:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build --check-stamp-file C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.31\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\GNUInstallDirs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.31\Templates\CPackConfig.cmake.in;C:\Program Files\hiredis\share\hiredis\hiredis-config-version.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-config.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-targets-debug.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-targets-release.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-targets.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\3.31.5\CMakeCXXCompiler.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\3.31.5\CMakeRCCompiler.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\3.31.5\CMakeSystem.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\cmake\redis++-config.cmake.in;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\cmake\redis++.pc.in;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\hiredis_features.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-master/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-master -BC:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build --check-stamp-file C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-3.31\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\GNUInstallDirs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.31\Templates\CPackConfig.cmake.in;C:\Program Files\hiredis\share\hiredis\hiredis-config-version.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-config.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-targets-debug.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-targets-release.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-targets.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\3.31.5\CMakeCXXCompiler.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\3.31.5\CMakeRCCompiler.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\3.31.5\CMakeSystem.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\cmake\redis++-config.cmake.in;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\cmake\redis++.pc.in;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\hiredis_features.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-master/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-master -BC:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build --check-stamp-file C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-3.31\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\GNUInstallDirs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.31\Templates\CPackConfig.cmake.in;C:\Program Files\hiredis\share\hiredis\hiredis-config-version.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-config.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-targets-debug.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-targets-release.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-targets.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\3.31.5\CMakeCXXCompiler.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\3.31.5\CMakeRCCompiler.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\3.31.5\CMakeSystem.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\cmake\redis++-config.cmake.in;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\cmake\redis++.pc.in;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\hiredis_features.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-master/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-master -BC:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build --check-stamp-file C:/Users/zac03/Documents/GitHub/Chatting_Server/redis-plus-plus-build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-3.31\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\GNUInstallDirs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.31\Templates\CPackConfig.cmake.in;C:\Program Files\hiredis\share\hiredis\hiredis-config-version.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-config.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-targets-debug.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-targets-release.cmake;C:\Program Files\hiredis\share\hiredis\hiredis-targets.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\3.31.5\CMakeCXXCompiler.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\3.31.5\CMakeRCCompiler.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\3.31.5\CMakeSystem.cmake;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\cmake\redis++-config.cmake.in;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\cmake\redis++.pc.in;C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\hiredis_features.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\command.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\command_options.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\connection.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\connection_pool.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\crc16.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\errors.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\pipeline.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\redis.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\redis_cluster.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\redis_uri.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\reply.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\sentinel.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\shards.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\shards_pool.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\subscriber.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\transaction.cpp" />
+    <ClCompile Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-master\src\sw\redis++\patterns\redlock.cpp" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\redis-plus-plus-build\ZERO_CHECK.vcxproj">
+      <Project>{0DC7926B-EDA4-3E4F-9320-532456635456}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

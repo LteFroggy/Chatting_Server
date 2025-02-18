@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\zac03\Documents\GitHub\Chatting_Server\hiredis_build\CMakeFiles\9ed43ef0e89ffd70bae070c64c275a5b\PACKAGE_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{C396AE40-89B9-3B19-8ECA-20DA0BD75D9D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,7 @@
+C:/Users/zac03/Documents/GitHub/Chatting_Server/hiredis_build/hiredis.dir/RelWithDebInfo/alloc.obj
+C:/Users/zac03/Documents/GitHub/Chatting_Server/hiredis_build/hiredis.dir/RelWithDebInfo/async.obj
+C:/Users/zac03/Documents/GitHub/Chatting_Server/hiredis_build/hiredis.dir/RelWithDebInfo/hiredis.obj
+C:/Users/zac03/Documents/GitHub/Chatting_Server/hiredis_build/hiredis.dir/RelWithDebInfo/net.obj
+C:/Users/zac03/Documents/GitHub/Chatting_Server/hiredis_build/hiredis.dir/RelWithDebInfo/read.obj
+C:/Users/zac03/Documents/GitHub/Chatting_Server/hiredis_build/hiredis.dir/RelWithDebInfo/sds.obj
+C:/Users/zac03/Documents/GitHub/Chatting_Server/hiredis_build/hiredis.dir/RelWithDebInfo/sockcompat.obj
