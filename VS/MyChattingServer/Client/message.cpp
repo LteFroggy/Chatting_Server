@@ -1,8 +1,8 @@
-#include "message.h"
+ï»¿#include "message.h"
 
 
 void message::sendMessage(SOCKET client_socket, string msg, int code) {
-	// ¸ÕÀú code¿¡ µû¸¥ µğÄÚµùÀ» ¼öÇàÇÑ´Ù.
+	// ë¨¼ì € codeì— ë”°ë¥¸ ë””ì½”ë”©ì„ ìˆ˜í–‰í•œë‹¤.
 }
 void message::receiveMessage(SOCKET client_socket, string result) {
 
