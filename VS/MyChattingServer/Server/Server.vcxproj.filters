@@ -16,27 +16,57 @@
     <Filter Include="소스 파일\Utils">
       <UniqueIdentifier>{eebf61e9-4533-4ade-be61-1a2fb84dad8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\server">
+      <UniqueIdentifier>{8443fe57-e2e3-4b9d-a9c3-b8a3390610fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\clientHandler">
+      <UniqueIdentifier>{1d3aee47-8acb-43fc-9836-b9aa521965e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\exceptions">
+      <UniqueIdentifier>{e8d4a5da-3e87-49c5-a92d-d6412b792aa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\communicate">
+      <UniqueIdentifier>{e8658551-f48a-4411-8bdd-11202530d5d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Server.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="dbUtils.cpp">
       <Filter>소스 파일\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="socketUtils.cpp">
-      <Filter>소스 파일\Utils</Filter>
+    <ClCompile Include="server.cpp">
+      <Filter>소스 파일\server</Filter>
+    </ClCompile>
+    <ClCompile Include="clientHandler.cpp">
+      <Filter>소스 파일\clientHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol.cpp">
+      <Filter>소스 파일\communicate</Filter>
+    </ClCompile>
+    <ClCompile Include="login.cpp">
+      <Filter>소스 파일\communicate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Protocol.h">
+      <Filter>소스 파일\communicate</Filter>
+    </ClInclude>
+    <ClInclude Include="clientHandler.h">
+      <Filter>소스 파일\clientHandler</Filter>
+    </ClInclude>
     <ClInclude Include="dbUtils.h">
       <Filter>소스 파일\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="socketUtils.h">
-      <Filter>소스 파일\Utils</Filter>
+    <ClInclude Include="exceptions.h">
+      <Filter>소스 파일\exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="message.h">
-      <Filter>소스 파일\Utils</Filter>
+    <ClInclude Include="login.h">
+      <Filter>소스 파일\communicate</Filter>
+    </ClInclude>
+    <ClInclude Include="server.h">
+      <Filter>소스 파일\server</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

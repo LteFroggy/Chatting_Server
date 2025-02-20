@@ -1,6 +1,18 @@
 ﻿#include "dbUtils.h"
 
-// MySQL과의 연결을 생성한다.
+// mySQl
+class MySQLException : exception {
+private :
+	string msg;
+public :
+	MySQLException(string msg) : msg(msg) {}
+
+	const char* what() const noexcept override {
+		return msg.c_str();
+	}
+};
+
+
 
 // 통신을 위해 사용하게 될 conn
 sql::Connection* mysql_conn = nullptr;

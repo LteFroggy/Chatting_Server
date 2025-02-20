@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <string>
+
 #include "socketUtils_client.h"
 
 #define BUFFER_SIZE 256
@@ -13,7 +15,7 @@ enum messageCode {
 	CHAT_MESSAGE = 2001,
 
 	SERVER_MESSAGE = 3001,
-};
+}; 
 
 enum loginResult {
 	SUCCESS = 0,
@@ -21,18 +23,18 @@ enum loginResult {
 	WRONG_PWD = 2,
 	NO_NICKNAME = 3,
 	SERVER_ERROR = 4,
-}
+};
 
 enum registResult {
 	SUCCESS = 0,
 	DUPLICATE_ID = 1,
 	DUPLICATE_NICKNAME = 2,
 	SERVER_ERROR = 3,
-}
+};
 
 struct msg_format {
 	messageCode code;
-	char body[BUFFER_SIZE];
+	string body;
 };
 
 struct loginResponse {

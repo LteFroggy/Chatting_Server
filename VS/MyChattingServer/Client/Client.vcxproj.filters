@@ -27,7 +27,7 @@
     <ClCompile Include="socketUtils._client.cpp">
       <Filter>소스 파일\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="message.cpp">
+    <ClCompile Include="Protocol.cpp">
       <Filter>소스 파일\Utils</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,7 +38,7 @@
     <ClInclude Include="socketUtils_client.h">
       <Filter>소스 파일\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="message.h">
+    <ClInclude Include="Protocol.h">
       <Filter>소스 파일\Utils</Filter>
     </ClInclude>
   </ItemGroup>
