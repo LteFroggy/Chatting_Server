@@ -11,14 +11,16 @@ using namespace std;
 *	ClientHandler는 Client가 들어올때마다 생성된다.
 */
 class clientHandler {
-private :
+private:
 	string id;
 	string nickname;
-	SOCKET client_socket;
+	SOCKET clientSocket;
 
-public :
+public:
+	// 기본 생성자
+	clientHandler() {}
 	// 생성자
-	clientHandler(string a, string b, SOCKET c) : id(a), nickname(b), client_socket(c) {}
+	clientHandler(string id, string nickname, SOCKET clientSocket) : id(a), nickname(b), clientSocket(c) {}
 
 	// 아이디 가져오기
 	string getID() {

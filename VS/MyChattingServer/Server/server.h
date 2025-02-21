@@ -7,26 +7,10 @@
 #include <WinSock2.h>
 #include <unordered_map>
 
-#include "clientHandler.h"
-
 using namespace std;
 
 #define PORT 13542
 #define BUFFER_SIZE 1024
-
-// 서버에서 발생하는 오류
-class ServerException : exception {
-private:
-	std::string message;
-public:
-	// 생성자
-	explicit ServerException(const string& msg) : message(msg) {}
-
-	// 예외 메시지를 반환
-	const char* what() const noexcept override {
-		return message.c_str();
-	}
-};
 
 /*
 *	서버 클래스는 하나의 인스턴스만 가지며, 유저 목록과 소켓을 가진다.
@@ -45,7 +29,7 @@ private :
 
 public :
 	// 해당 메소드를 이용해서만 Server의 호출이 가능하다.
-	static Server* getInstace();
+	static Server* getInstance();
 
 	// 서버의 소켓을 세팅하는 함수
 	void openSocket();

@@ -1,4 +1,4 @@
-﻿#include "Protocol_client.h"
+﻿#include "Protocol.h"
 
 // ====================================================================================================================================
 // 특정 대상에게 메세지를 보내는 함수
@@ -12,7 +12,7 @@ void message::sendMessage(SOCKET client_socket, msg_format msg) {
     else if (msg.code == LOGIN_RESPONSE) {
 
     }
-    send(client_socket, msg.c_str(), msg.length(), 0);
+    send(client_socket, msg, msg, 0);
 }
 
 void message::receiveMessage(SOCKET client_socket, string msg) {

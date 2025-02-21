@@ -1,16 +1,22 @@
-﻿#include <string>
+﻿#include "server.h"
+
+#include <string>
 #include <vector>
 #include <iostream>
 #include <algorithm>
-
-#include "server.h"
 
 using namespace std;
 using namespace sw::redis;
 
 int main() {
     // 소켓 생성
-    SOCKET serverSocket = socketUtils::openSocket();
+    Server* myServer = Server::getInstance();
+    try {
+        myServer->openSocket();
+    }
+    catch (exception e) {
+        cout << e.what() << endl;
+    }
 
     /* Redis Test! */
     cout << "Redis Test!" << endl;
@@ -57,6 +63,7 @@ int main() {
 
         // 클라이언트가 연결되면, 별도 스레드를 만들고 분리한다
         cout << "클라이언트 접속됨" << endl;
+
         thread client_thread(socketUtils::addNewSession, hClient);
         client_thread.detach();
         

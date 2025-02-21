@@ -5,7 +5,6 @@
 #include <iostream>
 #include <ws2tcpip.h> // inet_pton 사용을 위한 헤더 추가
 #include <WinSock2.h>
-#include "message.h"
 
 #include "socketUtils_client.h"
 
