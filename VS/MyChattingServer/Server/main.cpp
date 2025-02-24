@@ -5,6 +5,8 @@
 #include <iostream>
 #include <algorithm>
 
+#pragma comment(lib, "ws2_32.lib")
+
 using namespace std;
 using namespace sw::redis;
 
@@ -20,21 +22,21 @@ int main() {
 
     /* Redis Test! */
     cout << "Redis Test!" << endl;
-    redis::makeConnection();
-    redis::setValue("Myname", "Wonjong");
-    cout << redis::getValue("Myname") << endl;
+    redis* redisConn = redis::getInstance();
+    redisConn->setValue("Myname", "Wonjong");
+    cout << redisConn->getValue("Myname") << endl;
 
     cout << endl << endl;
 
-    /* mySQL Test */
-    cout << "MYSQL TEST" << endl;
-    mysql::makeConnection();
-    userInfo tmp = mysql::getUserinfoByID("zac0328");
+    /* MySQL Test */
+    cout << "MySQL TEST" << endl;
+    mysql* sqlInstance = mysql::getInstance();
+    userInfo tmp = sqlInstance->getLoginInfo("zac0328");
     cout << "유저의 닉네임은 " + tmp.nickname << endl;
 
-    if (listen(serverSocket, SOMAXCONN) == SOCKET_ERROR) {
+    if (listen(myServer->getSocket(), SOMAXCONN) == SOCKET_ERROR) {
         cerr << "Listen Failed : " << WSAGetLastError() << endl;
-        closesocket(serverSocket);
+        closesocket(myServer->getSocket());
         WSACleanup();
         system("pause");
         return 2;
@@ -53,7 +55,7 @@ int main() {
         // sockaddr과 socket을 만들고, accept를 수행한다.
         SOCKADDR_IN tClntAddr = {};
         int iClntSize = sizeof(tClntAddr);
-        SOCKET hClient = accept(serverSocket, (SOCKADDR*)&tClntAddr, &iClntSize);
+        SOCKET hClient = accept(myServer->getSocket(), (SOCKADDR*)&tClntAddr, &iClntSize);
 
         // 잘 연결되지 않았다면, 위의 루프를 다시 진행
         if (hClient == INVALID_SOCKET) {

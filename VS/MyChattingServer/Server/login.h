@@ -7,7 +7,7 @@ enum loginResult {
 	SUCCESS = 0,
 	NO_ID = 1,
 	WRONG_PWD = 2,
-	SERVER_ERROR = 3,
+	SERVER_ERROR = 3
 };
 
 class loginRequest : public msg_format {
@@ -17,7 +17,7 @@ private :
 
 public :
 	loginRequest(messageCode code, string id, string pwd) : msg_format(code), id(id), pwd(pwd) {}
-	loginRequest(string msg) : msg_format(msg) {}
+	//loginRequest(string msg) : msg_format(msg) {}
 
 	void setId(string id);
 	string getId();

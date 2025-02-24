@@ -6,7 +6,7 @@
 Server* Server::getInstance() {
 	if (instance == nullptr) {
 		lock_guard<mutex> lock(mtx);
-		instance = new Server()
+        instance = new Server();
 	}
 	return instance;
 }
@@ -99,8 +99,9 @@ void Server::openSocket() {
     //    system("pause");
     //    return 1;
     //}
-}
 
+    return &serverSocket;
+}
 
 // ====================================================================================================================================
 // User의 List를 확인한다.
@@ -108,7 +109,6 @@ void Server::openSocket() {
 unordered_map<string, clientHandler> Server::getUserList() {
 	return userMap;
 }
-
 
 // ====================================================================================================================================
 // 특정 유저의 소켓 번호를 가져온다! (게임 내 귓속말 기능 구현을 위함)
@@ -118,4 +118,11 @@ clientHandler& Server::getUserSocketNum(string nickname) {
     if (it != userMap.end()) {
         return it->second;
     }
+}
+
+// ====================================================================================================================================
+// 서버의 소켓을 반환한다.
+// ====================================================================================================================================
+SOCKET Server::getSocket() {
+    return serverSocket;
 }

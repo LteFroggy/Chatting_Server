@@ -18,9 +18,9 @@ private:
 
 public:
 	// 기본 생성자
-	clientHandler() {}
+	// clientHandler() {}
 	// 생성자
-	clientHandler(string id, string nickname, SOCKET clientSocket) : id(a), nickname(b), clientSocket(c) {}
+	clientHandler(string id, string nickname, SOCKET clientSocket) : id(id), nickname(nickname), clientSocket(clientSocket) {}
 
 	// 아이디 가져오기
 	string getID() {

@@ -34,10 +34,10 @@ private:
 	sql::Connection* connector;
 
 	mysql() {}
-public: 
-	static mysql* getInstance() {}
-
 	void makeConnection();
+public: 
+
+	static mysql* getInstance();
 	// clientHandler getUserinfoByID(string id);
 	// clientHandler getUserinfoByNickname(string nickname);
 	userInfo getLoginInfo(string id);
@@ -53,9 +53,9 @@ private :
 	sw::redis::Redis* connector;
 
 	redis() {}
+	void makeConnection();
 public:
 	static redis* getInstance();
-	void makeConnection();
 	string getValue(string key);
 	void setValue(string key, string value);
 };

@@ -6,6 +6,7 @@
 #include <ws2tcpip.h>
 #include <WinSock2.h>
 #include <unordered_map>
+#include "clientHandler.h"
 
 using namespace std;
 
@@ -31,8 +32,11 @@ public :
 	// 해당 메소드를 이용해서만 Server의 호출이 가능하다.
 	static Server* getInstance();
 
-	// 서버의 소켓을 세팅하는 함수
+	// 서버의 소켓을 세팅하고 반환한다.
 	void openSocket();
+
+	// 서버의 소켓을 반환한다
+	SOCKET getSocket();
 
 	// 특정 유저를 userMap에 추가하는 함수
 	void addToUserMap(SOCKET client_socket, clientHandler client);

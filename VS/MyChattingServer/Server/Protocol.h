@@ -25,8 +25,8 @@ private :
 	string encodedMessage;
 
 public :
-	msg_format(messageCode a) : code(a) {}
-	msg_format(string encodedMessage) : encodedMessage(encodedMessage) {}
+	explicit msg_format(messageCode a) : code(a) {}
+	explicit msg_format(string encodedMessage) : encodedMessage(encodedMessage) {}
 
 	messageCode getCode();
 	void setCode(messageCode input);
