@@ -66,7 +66,7 @@ int main() {
         // 클라이언트가 연결되면, 별도 스레드를 만들고 분리한다
         cout << "클라이언트 접속됨" << endl;
 
-        thread client_thread(socketUtils::addNewSession, hClient);
+        thread client_thread(, hClient);
         client_thread.detach();
         
         /*
