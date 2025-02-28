@@ -3,6 +3,7 @@
 #include <WinSock2.h>
 
 #include "Protocol.h"
+#include "server.h"
 #include "login.h"
 
 using namespace std;
@@ -20,7 +21,7 @@ public:
 	// 기본 생성자
 	// clientHandler() {}
 	// 생성자
-	clientHandler(string id, string nickname, SOCKET clientSocket) : id(id), nickname(nickname), clientSocket(clientSocket) {}
+	clientHandler(SOCKET clientSocket) : clientSocket(clientSocket) {}
 
 	// 아이디 가져오기
 	string getID() {
@@ -32,13 +33,14 @@ public:
 		return nickname;
 	}
 
-	// 클라이언트에게 메세지를 보낸다
-	void sendMessage(msg_format* msg) {
-		
+	void startClientHandler(SOCKET clientSocket) {
+		clientHandler handler(clientSocket);
+		Server* myServer = Server::getInstance();
 	}
+
+	// 클라이언트에게 메세지를 보낸다
+	void sendMessage(msg_format* msg);
 
 	// 클라이언트에게 메세지를 받는다
-	void receiveMessage() {
-
-	}
+	void receiveMessage();
 };
