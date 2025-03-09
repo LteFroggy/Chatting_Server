@@ -42,10 +42,10 @@
     <ClCompile Include="clientHandler.cpp">
       <Filter>소스 파일\clientHandler</Filter>
     </ClCompile>
-    <ClCompile Include="Protocol.cpp">
+    <ClCompile Include="login.cpp">
       <Filter>소스 파일\communicate</Filter>
     </ClCompile>
-    <ClCompile Include="login.cpp">
+    <ClCompile Include="Protocol.cpp">
       <Filter>소스 파일\communicate</Filter>
     </ClCompile>
   </ItemGroup>

@@ -7,6 +7,7 @@
 #include <WinSock2.h>
 #include <unordered_map>
 #include "clientHandler.h"
+class clientHandler;
 
 using namespace std;
 
@@ -19,7 +20,7 @@ using namespace std;
 class Server {
 private :
 	// 로그인 완료한 유저가 저장될 맵
-	unordered_map<string, clientHandler> userMap;
+	unordered_map<string, clientHandler*> userMap;
 	SOCKET serverSocket;
 	// 서버가 저장될 저장공간
 	static Server* instance;
@@ -39,11 +40,11 @@ public :
 	SOCKET getSocket();
 
 	// 특정 유저를 userMap에 추가하는 함수
-	void addToUserMap(SOCKET client_socket, clientHandler client);
+	void addToUserMap(string userName, clientHandler* client);
 
 	// BroadCast를 위해 모든 유저의 정보를 반환하는 함수
-	unordered_map<string, clientHandler> getUserList();
+	unordered_map<string, clientHandler*> getUserList();
 
 	// 단일 유저의 정보를 알아내기 위해 유저의 정보를 찾아오는 함수
-	clientHandler& getUserSocketNum(string nickname);
+	clientHandler* getUserSocket(string nickname);
 };

@@ -3,7 +3,10 @@
 #include "Protocol.h"
 #include "dbUtils.h"
 
-enum loginResult {
+class msg_format;
+enum class messageCode;
+
+enum class loginResult {
 	SUCCESS = 0,
 	NO_ID = 1,
 	WRONG_PWD = 2,
@@ -17,7 +20,7 @@ private :
 
 public :
 	loginRequest(messageCode code, string id, string pwd) : msg_format(code), id(id), pwd(pwd) {}
-	//loginRequest(string msg) : msg_format(msg) {}
+	loginRequest(string msg) : msg_format(msg) {}
 
 	void setId(string id);
 	string getId();
@@ -33,8 +36,17 @@ class loginResponse : public msg_format {
 private :
 	loginResult result;
 	string nickname;
-	string msg;
+	string message;
 
 public :
-	loginResponse(messageCode code, loginResult result, string nickname, string msg) : msg_format(code), result(result), nickname(nickname), msg(msg) {}
+	loginResponse(messageCode code, loginResult result, string nickname, string msg) : msg_format(code), result(result), nickname(nickname), message(msg) {}
+	
+	void setResult(loginResult result_input);
+	void setNickname(string nickname_input);
+	loginResult getResult();
+	string getNickname();
+
+	string encodeMessage() override;
+	void decodeMessage() override;
+	optional<msg_format*> processMessage() override;
 };

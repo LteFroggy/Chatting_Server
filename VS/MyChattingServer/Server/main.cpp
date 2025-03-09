@@ -1,9 +1,10 @@
-﻿#include "server.h"
-
-#include <string>
+﻿#include <string>
 #include <vector>
 #include <iostream>
 #include <algorithm>
+
+#include "server.h"
+#include "clientHandler.h"
 
 #pragma comment(lib, "ws2_32.lib")
 
@@ -55,18 +56,19 @@ int main() {
         // sockaddr과 socket을 만들고, accept를 수행한다.
         SOCKADDR_IN tClntAddr = {};
         int iClntSize = sizeof(tClntAddr);
-        SOCKET hClient = accept(myServer->getSocket(), (SOCKADDR*)&tClntAddr, &iClntSize);
+        SOCKET clientSocket = accept(myServer->getSocket(), (SOCKADDR*)&tClntAddr, &iClntSize);
 
         // 잘 연결되지 않았다면, 위의 루프를 다시 진행
-        if (hClient == INVALID_SOCKET) {
-            closesocket(hClient);
+        if (clientSocket == INVALID_SOCKET) {
+            closesocket(clientSocket);
             continue;
         }
 
         // 클라이언트가 연결되면, 별도 스레드를 만들고 분리한다
         cout << "클라이언트 접속됨" << endl;
 
-        thread client_thread(, hClient);
+        clientHandler handler(clientSocket);
+        thread client_thread(std::bind(&clientHandler::startClientHandler, &handler));
         client_thread.detach();
         
         /*

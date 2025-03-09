@@ -5,6 +5,8 @@
 #include "Protocol.h"
 #include "server.h"
 #include "login.h"
+class msg_format;
+class Server;
 
 using namespace std;
 
@@ -19,7 +21,7 @@ private:
 
 public:
 	// 기본 생성자
-	// clientHandler() {}
+	clientHandler() {}
 	// 생성자
 	clientHandler(SOCKET clientSocket) : clientSocket(clientSocket) {}
 
@@ -33,10 +35,8 @@ public:
 		return nickname;
 	}
 
-	void startClientHandler(SOCKET clientSocket) {
-		clientHandler handler(clientSocket);
-		Server* myServer = Server::getInstance();
-	}
+	// Thread의 시작을 위한 함수
+	void startClientHandler();
 
 	// 클라이언트에게 메세지를 보낸다
 	void sendMessage(msg_format* msg);

@@ -21,7 +21,7 @@ void msg_format::setMsg(string message) {
 // ====================================================================================================================================
  // 메세지 해독을 위해 split하는 내장함수
 // ====================================================================================================================================
-vector<string> msg_format::split(string target, char deli = '|') {
+vector<string> msg_format::split(string target, char deli) {
 	stringstream ss(target);
 	vector<string> result;
 	string tmp;

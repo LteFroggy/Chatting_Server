@@ -6,9 +6,11 @@
 
 #include "server.h"
 
+using namespace std;
+
 #define BUFFER_SIZE 256
 
-enum messageCode {
+enum class messageCode {
 	LOGIN_REQUEST = 1001,
 	LOGIN_RESPONSE = 1002,
 	REGIST_REQUEST = 1003,
@@ -22,11 +24,11 @@ enum messageCode {
 class msg_format {
 private :
 	messageCode code;
-	string encodedMessage;
+	string encodedMessage = "";
 
 public :
-	explicit msg_format(messageCode a) : code(a) {}
-	explicit msg_format(string encodedMessage) : encodedMessage(encodedMessage) {}
+	msg_format(messageCode a) : code(a) {}
+	msg_format(string encodedMessage) : encodedMessage(encodedMessage) {}
 
 	messageCode getCode();
 	void setCode(messageCode input);
@@ -41,11 +43,4 @@ public :
 	virtual void decodeMessage();
 	// 전송받은 메세지를 처리하고, 필요하다면 반환하는 메세지를 만든다.
 	virtual optional<msg_format*> processMessage();
-};
-
-enum registResult {
-	SUCCESS = 0,
-	DUPLICATE_ID = 1,
-	DUPLICATE_NICKNAME = 2,
-	SERVER_ERROR = 3,
 };
