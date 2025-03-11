@@ -2,9 +2,8 @@
 #include <ws2tcpip.h>
 #include <WinSock2.h>
 
-#include "Protocol.h"
-#include "server.h"
 #include "login.h"
+
 class msg_format;
 class Server;
 

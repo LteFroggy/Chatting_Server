@@ -7,7 +7,7 @@ void loginRequest::setId(string id) {
 	id = id;
 }
 
-string loginRequest::getId() {
+string loginRequest::getId() const{
 	return id;
 }
 
@@ -15,7 +15,7 @@ void loginRequest::setPwd(string pwd) {
 	pwd = pwd;
 }
 
-string loginRequest::getPwd() {
+string loginRequest::getPwd() const{
 	return pwd;
 }
 
@@ -74,7 +74,6 @@ optional<msg_format*> loginRequest::processMessage() {
 		cout << e.what() << endl;
 		return new loginResponse(messageCode::LOGIN_RESPONSE, loginResult::SERVER_ERROR, "", e.what());
 	}
-	
 }
 
 // --------------------------- loginResponse getter, setter
@@ -103,5 +102,5 @@ void loginResponse::decodeMessage() {
 }
 
 optional<msg_format*> loginResponse::processMessage() {
-
+	return nullopt;
 }

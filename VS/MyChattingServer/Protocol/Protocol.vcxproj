@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{ec2584c4-b423-4cee-8f06-9e42c68408ab}</ProjectGuid>
-    <RootNamespace>Client</RootNamespace>
+    <ProjectGuid>{73d51d2c-ef07-4295-9e77-8630a0db4f6b}</ProjectGuid>
+    <RootNamespace>Protocol</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -130,30 +130,22 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Server\sha256.cpp" />
-    <ClCompile Include="Client.cpp" />
-    <ClCompile Include="Protocol.cpp" />
-    <ClCompile Include="socketUtils._client.cpp" />
+    <ClCompile Include="..\Server\login.cpp" />
+    <ClCompile Include="..\Server\Protocol.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Server\sha256.h" />
-    <ClInclude Include="Protocol.h" />
-    <ClInclude Include="socketUtils_client.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Protocol\Protocol.vcxproj">
-      <Project>{73d51d2c-ef07-4295-9e77-8630a0db4f6b}</Project>
-    </ProjectReference>
+    <ClInclude Include="..\Server\login.h" />
+    <ClInclude Include="..\Server\Protocol.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

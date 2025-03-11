@@ -25,9 +25,6 @@
     <Filter Include="소스 파일\exceptions">
       <UniqueIdentifier>{e8d4a5da-3e87-49c5-a92d-d6412b792aa7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\communicate">
-      <UniqueIdentifier>{e8658551-f48a-4411-8bdd-11202530d5d7}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,17 +39,8 @@
     <ClCompile Include="clientHandler.cpp">
       <Filter>소스 파일\clientHandler</Filter>
     </ClCompile>
-    <ClCompile Include="login.cpp">
-      <Filter>소스 파일\communicate</Filter>
-    </ClCompile>
-    <ClCompile Include="Protocol.cpp">
-      <Filter>소스 파일\communicate</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Protocol.h">
-      <Filter>소스 파일\communicate</Filter>
-    </ClInclude>
     <ClInclude Include="clientHandler.h">
       <Filter>소스 파일\clientHandler</Filter>
     </ClInclude>
@@ -61,9 +49,6 @@
     </ClInclude>
     <ClInclude Include="exceptions.h">
       <Filter>소스 파일\exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="login.h">
-      <Filter>소스 파일\communicate</Filter>
     </ClInclude>
     <ClInclude Include="server.h">
       <Filter>소스 파일\server</Filter>

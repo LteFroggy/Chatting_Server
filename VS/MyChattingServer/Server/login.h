@@ -3,8 +3,10 @@
 #include "Protocol.h"
 #include "dbUtils.h"
 
-class msg_format;
+using namespace std;
+
 enum class messageCode;
+class msg_format;
 
 enum class loginResult {
 	SUCCESS = 0,
@@ -23,9 +25,9 @@ public :
 	loginRequest(string msg) : msg_format(msg) {}
 
 	void setId(string id);
-	string getId();
+	string getId() const;
 	void setPwd(string pwd);
-	string getPwd();
+	string getPwd() const;
 
 	string encodeMessage() override;
 	void decodeMessage() override;

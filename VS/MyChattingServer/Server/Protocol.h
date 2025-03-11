@@ -11,6 +11,7 @@ using namespace std;
 #define BUFFER_SIZE 256
 
 enum class messageCode {
+	NOT_ASSIGNED = 0,
 	LOGIN_REQUEST = 1001,
 	LOGIN_RESPONSE = 1002,
 	REGIST_REQUEST = 1003,
@@ -23,24 +24,24 @@ enum class messageCode {
 
 class msg_format {
 private :
-	messageCode code;
+	messageCode code = messageCode::NOT_ASSIGNED;
 	string encodedMessage = "";
 
 public :
 	msg_format(messageCode a) : code(a) {}
 	msg_format(string encodedMessage) : encodedMessage(encodedMessage) {}
 
-	messageCode getCode();
+	messageCode getCode() const;
 	void setCode(messageCode input);
-	string getMsg();
+	string getMsg() const;
 	void setMsg(string message);
 
 	// 메세지 해독을 위해 split하는 내장함수
 	vector<string> split(string target, char deli = '|');
 	// msg_format을 전송을 위한 str로 만든다
-	virtual string encodeMessage();
+	virtual string encodeMessage() = 0;
 	// 전송된 저장된 메세지를 디코딩한다
-	virtual void decodeMessage();
+	virtual void decodeMessage() = 0;
 	// 전송받은 메세지를 처리하고, 필요하다면 반환하는 메세지를 만든다.
-	virtual optional<msg_format*> processMessage();
+	virtual optional<msg_format*> processMessage() = 0;
 };

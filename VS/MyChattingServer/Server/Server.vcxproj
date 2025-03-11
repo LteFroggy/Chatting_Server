@@ -161,18 +161,19 @@
   <ItemGroup>
     <ClCompile Include="clientHandler.cpp" />
     <ClCompile Include="dbUtils.cpp" />
-    <ClCompile Include="login.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Protocol.cpp" />
     <ClCompile Include="server.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="clientHandler.h" />
     <ClInclude Include="dbUtils.h" />
     <ClInclude Include="exceptions.h" />
-    <ClInclude Include="login.h" />
-    <ClInclude Include="Protocol.h" />
     <ClInclude Include="server.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Protocol\Protocol.vcxproj">
+      <Project>{73d51d2c-ef07-4295-9e77-8630a0db4f6b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

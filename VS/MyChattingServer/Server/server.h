@@ -6,7 +6,9 @@
 #include <ws2tcpip.h>
 #include <WinSock2.h>
 #include <unordered_map>
-#include "clientHandler.h"
+
+#include "exceptions.h"
+
 class clientHandler;
 
 using namespace std;
@@ -22,9 +24,10 @@ private :
 	// 로그인 완료한 유저가 저장될 맵
 	unordered_map<string, clientHandler*> userMap;
 	SOCKET serverSocket;
+
 	// 서버가 저장될 저장공간
-	static Server* instance;
-	static mutex mtx;
+	inline static Server* instance = nullptr;
+	inline static mutex mtx;
 
 	// 생성자 호출 불가능하다. getInstance만을 이용해 생성해야 함 
 	Server() {}

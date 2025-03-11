@@ -1,6 +1,4 @@
 ﻿#pragma once
-#include "clientHandler.h"
-#include "exceptions.h"
 
 #include <string>
 #include <jdbc/mysql_driver.h>  // MySQL 
@@ -8,6 +6,8 @@
 #include <jdbc/cppconn/prepared_statement.h>  // MySQL
 #include <jdbc/cppconn/resultset.h>  // MySQL
 #include <sw/redis++/redis.h>  // Redis
+
+#include "exceptions.h"
 
 #define MYSQL_PORT 3306
 #define MYSQL_ADDRESS "127.0.0.1"
@@ -29,7 +29,7 @@ struct userInfo {
 */
 class mysql {
 private:
-	static mysql* instance;
+	inline static mysql* instance = nullptr;
 	sql::mysql::MySQL_Driver* driver;
 	sql::Connection* connector;
 
@@ -49,7 +49,7 @@ public:
 // Redis 관련 함수가 정의된 폴더
 class redis {
 private :
-	static redis* instance;
+	inline static redis* instance = nullptr;
 	sw::redis::Redis* connector;
 
 	redis() {}

@@ -3,14 +3,14 @@
 // ====================================================================================================================================
 // Setter, Getter
 // ====================================================================================================================================
-messageCode msg_format::getCode() {
+messageCode msg_format::getCode() const{
 	return code;
 }
 void msg_format::setCode(messageCode input) {
 	code = input;
 }
 
-string msg_format::getMsg() {
+string msg_format::getMsg() const{
 	return encodedMessage;
 }
 
